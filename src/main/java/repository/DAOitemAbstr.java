@@ -6,7 +6,7 @@ public abstract class DAOitemAbstr<T> implements DAOitem<T> {
 
     @Override
     public T add(T domain) {
-    return null;
+        return null;
     }
 
     @Override

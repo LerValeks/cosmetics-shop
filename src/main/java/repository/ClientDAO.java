@@ -4,7 +4,7 @@ import models.Client;
 
 import java.util.List;
 
-public class ClientDAO extends DAOitemAbstr<Client> implements DAOitem<Client>{
+public class ClientDAO extends DAOitemAbstr<Client> implements DAOitem<Client> {
 
     @Override
     public Client add(Client domain) {
