@@ -3,8 +3,10 @@ package service;
 import models.Employee;
 import models.Reservation;
 import repository.EmployeeDatabase;
+import validation.ReservationValidator;
 
 import java.util.List;
+import java.util.Set;
 
 public class ReservationServiceImpl implements ReservationService {
 
@@ -17,8 +19,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation bookVisit(Reservation reservation) {
 
-        List<Employee> employees = employeeDatabase.getAllItemsFromDatabase();
+        if (ReservationValidator.validateReservationParameters(reservation)) {
+            Set<Employee> employees = employeeDatabase.getAllItemsFromDatabase();
 
+        }
         return reservation;
     }
 

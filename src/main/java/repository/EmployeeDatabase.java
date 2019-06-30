@@ -2,7 +2,7 @@ package repository;
 
 import models.Employee;
 
-import java.util.List;
+import java.util.Set;
 
 public class EmployeeDatabase implements DatabaseInteraction<Employee> {
 
@@ -27,7 +27,7 @@ public class EmployeeDatabase implements DatabaseInteraction<Employee> {
     }
 
     @Override
-    public List<Employee> getAllItemsFromDatabase() {
+    public Set<Employee> getAllItemsFromDatabase() {
         return null;
     }
 }

@@ -2,7 +2,7 @@ package repository;
 
 import models.Client;
 
-import java.util.List;
+import java.util.Set;
 
 public class ClientDatabase implements DatabaseInteraction<Client> {
 
@@ -27,7 +27,7 @@ public class ClientDatabase implements DatabaseInteraction<Client> {
     }
 
     @Override
-    public List<Client> getAllItemsFromDatabase() {
+    public Set<Client> getAllItemsFromDatabase() {
         return null;
     }
 }

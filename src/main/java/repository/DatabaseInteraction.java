@@ -1,6 +1,6 @@
 package repository;
 
-import java.util.List;
+import java.util.Set;
 
 public interface DatabaseInteraction<T> {
 
@@ -12,5 +12,5 @@ public interface DatabaseInteraction<T> {
 
     T getItemFromDatabase(Integer itemID);
 
-    List<T> getAllItemsFromDatabase();
+    Set<T> getAllItemsFromDatabase();
 }
