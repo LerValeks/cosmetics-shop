@@ -1,7 +1,13 @@
 package models;
 
+import static models.UserCategory.EMPLOYEE;
+
 public class Employee extends User {
-    public Employee(String name, String surname, String phoneNumber) {
-        super(name, surname, phoneNumber);
+
+    private ServiceCategory serviceCategory;
+
+    public Employee(String name, String surname, String phoneNumber, UserCategory userCategory, ServiceCategory serviceCategory) {
+        super(name, surname, phoneNumber, EMPLOYEE);
+        this.serviceCategory = serviceCategory;
     }
 }
