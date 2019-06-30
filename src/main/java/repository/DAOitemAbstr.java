@@ -19,10 +19,6 @@ public abstract class DAOitemAbstr<T> implements DAOitem<T> {
         return null;
     }
 
-    @Override
-    public Class<?> getType(T domain) {
-        return domain.getClass();
-    }
 
     @Override
     public T get(Number id) {
@@ -30,7 +26,7 @@ public abstract class DAOitemAbstr<T> implements DAOitem<T> {
     }
 
     @Override
-    public List<T> loadAll() {
+    public List<T> getAllItemsFromDAO() {
         return null;
     }
 }
