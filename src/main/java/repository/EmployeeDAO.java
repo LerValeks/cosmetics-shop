@@ -2,6 +2,8 @@ package repository;
 
 import models.Employee;
 
+import java.util.List;
+
 public class EmployeeDAO extends DAOitemAbstr<Employee> implements DAOitem<Employee> {
     @Override
     public Employee add(Employee domain) {
@@ -16,5 +18,20 @@ public class EmployeeDAO extends DAOitemAbstr<Employee> implements DAOitem<Emplo
     @Override
     public Employee update(Employee domain) {
         return super.update(domain);
+    }
+
+    @Override
+    public Class<?> getType(Employee domain) {
+        return super.getType(domain);
+    }
+
+    @Override
+    public Employee get(Number id) {
+        return super.get(id);
+    }
+
+    @Override
+    public List<Employee> loadAll() {
+        return super.loadAll();
     }
 }

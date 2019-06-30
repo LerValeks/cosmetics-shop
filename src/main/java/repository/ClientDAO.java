@@ -2,6 +2,8 @@ package repository;
 
 import models.Client;
 
+import java.util.List;
+
 public class ClientDAO extends DAOitemAbstr<Client> implements DAOitem<Client>{
     @Override
     public Client add(Client domain) {
@@ -16,5 +18,20 @@ public class ClientDAO extends DAOitemAbstr<Client> implements DAOitem<Client>{
     @Override
     public Client update(Client domain) {
         return super.update(domain);
+    }
+
+    @Override
+    public Class<?> getType(Client domain) {
+        return super.getType(domain);
+    }
+
+    @Override
+    public Client get(Number id) {
+        return super.get(id);
+    }
+
+    @Override
+    public List<Client> loadAll() {
+        return super.loadAll();
     }
 }
