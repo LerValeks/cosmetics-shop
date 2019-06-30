@@ -17,6 +17,10 @@ public class ReservationValidator {
                 && validateReservationTimeIsValid(reservation);
     }
 
+    public static boolean validateAvailableReservation() {
+        return false;
+    }
+
     private static boolean validateServiceCategory(Reservation reservation) {
 
         return reservation.getServiceCategory() != null;
