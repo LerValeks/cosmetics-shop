@@ -1,14 +1,25 @@
 package service;
 
+import models.Employee;
 import models.Reservation;
+import repository.EmployeeDatabase;
 
 import java.util.List;
 
 public class ReservationServiceImpl implements ReservationService {
 
+    EmployeeDatabase employeeDatabase;
+
+    public ReservationServiceImpl(EmployeeDatabase employeeDatabase) {
+        this.employeeDatabase = employeeDatabase;
+    }
+
     @Override
     public Reservation bookVisit(Reservation reservation) {
-        return null;
+
+        List<Employee> employees = employeeDatabase.getAllItemsFromDatabase();
+
+        return reservation;
     }
 
     @Override
