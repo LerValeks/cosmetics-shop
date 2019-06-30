@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 
-public class Reservations {
+public class Reservation {
 
     ServiceCategory serviceCategory;
     Employee employee;
