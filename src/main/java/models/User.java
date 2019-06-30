@@ -9,6 +9,7 @@ public abstract class User {
     private String phoneNumber;
     private Integer id;
 
+
     public User(String name, String surname, String phoneNumber) {
         this.name = name;
         this.surname = surname;

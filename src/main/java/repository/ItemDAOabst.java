@@ -1,4 +1,5 @@
 package repository;
 
-public class ItemDAOabst {
+public abstract class ItemDAOabst<T> implements ItemDAO<T> {
+
 }
