@@ -14,6 +14,4 @@ public class Worker extends User {
         this.reservations = new ArrayList<>();
     }
 
-
-
 }
