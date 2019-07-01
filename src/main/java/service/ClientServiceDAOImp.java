@@ -17,22 +17,22 @@ public class ClientServiceDAOImp implements ClientServiceDao {
 
     @Override
     public Client add(Client client) {
-        return null;
+        return clientServiceDao.add(client);
     }
 
     @Override
-    public Client update(Client employee) {
-        return null;
-    }
-
-    @Override
-    public Client delete(Client employee) {
-        return null;
+    public Client update(Client client) {
+        return clientServiceDao.add(client);
     }
 
     @Override
     public List<Reservation> reservationByClient(ClientDAO clientDAO) {
         return null;
+    }
+
+    @Override
+    public Client delete(Client client) {
+        return clientServiceDao.delete(client);
     }
 
     @Override

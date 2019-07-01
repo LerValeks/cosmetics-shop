@@ -18,17 +18,17 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
     @Override
     public Employee add(Employee employee) {
-        return null;
+        return employeeDAO.add(employee);
     }
 
     @Override
     public Employee update(Employee employee) {
-        return null;
+        return employeeDAO.update(employee);
     }
 
     @Override
     public Employee delete(Employee employee) {
-        return null;
+        return employeeDAO.delete(employee);
     }
 
     @Override

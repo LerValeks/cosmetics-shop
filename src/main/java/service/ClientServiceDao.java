@@ -11,9 +11,9 @@ import java.util.List;
 public interface ClientServiceDao {
     Client add(Client client);
 
-    Client update(Client employee);
+    Client update(Client client);
 
-    Client delete(Client employee);
+    Client delete(Client client);
 
     List<Reservation> reservationByClient(ClientDAO clientDAO);
 
