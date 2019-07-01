@@ -4,7 +4,7 @@ import models.Client;
 import service.Exceptions.ClientException;
 
 public class ClientValidator {
-    public static boolean IsEmployeeValid(Client client) throws ClientException {
+    public static boolean IsClientValid(Client client) throws ClientException {
         if (client == null) {
             throw new ClientException("Client is null");
         } else {

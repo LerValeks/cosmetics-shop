@@ -4,6 +4,7 @@ import models.Employee;
 import models.Reservation;
 import models.ServiceCategory;
 import repository.EmployeeDAO;
+import service.Exceptions.EmployeeException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,19 +12,19 @@ import java.util.List;
 public interface EmployeeServiceDAO {
 
 
-    Employee add(Employee employee);
+    Employee add(Employee employee) throws EmployeeException;
 
-    Employee update(Employee employee);
+    Employee update(Employee employee) throws EmployeeException;
 
-    Employee delete(Employee employee);
+    Employee delete(Employee employee)throws EmployeeException;
 
-    List<Employee> ServiceCategoryEmployees(ServiceCategory serviceCategory, EmployeeDAO employeeDAO);
+    List<Employee> ServiceCategoryEmployees(ServiceCategory serviceCategory, Employee employee)throws EmployeeException;
 
-    List<Employee> FreeEmployees(ServiceCategory serviceCategory, EmployeeDAO employeeDAO, Reservation reservation);
+    List<Employee> FreeEmployees(ServiceCategory serviceCategory, Employee employee, Reservation reservation)throws EmployeeException;
 
-    List<Reservation> reservationByEmployeeInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate);
+    List<Reservation> reservationByEmployeeInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate) throws EmployeeException;
 
-    List<Reservation> reservationByEmployeeByServiceCategoryInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate, ServiceCategory serviceCategory);
+    List<Reservation> reservationByEmployeeByServiceCategoryInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate, ServiceCategory serviceCategory) throws EmployeeException;
 
 
 }
