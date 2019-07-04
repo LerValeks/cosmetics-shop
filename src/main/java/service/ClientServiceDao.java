@@ -4,7 +4,7 @@ import models.Client;
 import models.Reservation;
 import models.ServiceCategory;
 import repository.ClientDAO;
-import service.Exceptions.ClientException;
+import service.exceptions.ClientException;
 
 import java.time.LocalDateTime;
 import java.util.List;
