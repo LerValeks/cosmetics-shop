@@ -1,16 +1,16 @@
-package validation;
+package service.validation;
 
 import models.EmploymentStatus;
 import models.Reservation;
-import repository.ClientDatabase;
-import repository.EmployeeDatabase;
+import repository.ClientDAO;
+import repository.EmployeeDAO;
 
 import java.util.stream.Collectors;
 
-public class ClientValidator {
+public class ClientValidator_DAN {
 
-    private static ClientDatabase clientDatabase;
-    private static EmployeeDatabase employeeDatabase;
+    private static ClientDAO clientDAO;
+    private static EmployeeDAO employeeDAO;
 
     public static boolean validateClientParameters(Reservation reservation) {
 
@@ -21,12 +21,13 @@ public class ClientValidator {
 
     public static boolean validateIfCurrentClient(Reservation reservation) {
 
-        return clientDatabase.getAllItemsFromDatabase().contains(reservation.getClient());
+        return clientDAO.getAllItems().contains(reservation.getClient());
     }
 
+    //TODO: Ammend lambda
     public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) {
-//TODO: Ammend lambda
-        employeeDatabase.getAllItemsFromDatabase().stream()
+
+        employeeDAO.getAllItems().stream()
                 .filter(employee -> employee.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
                 .map(employee -> employee.getReservations())
          //       .flatMap(reservations -> reservation.getReservationTime())

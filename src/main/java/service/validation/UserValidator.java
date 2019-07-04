@@ -1,6 +1,5 @@
-package service.Validators;
+package service.validation;
 
-import models.Client;
 import models.Employee;
 import models.User;
 import service.exceptions.UserException;

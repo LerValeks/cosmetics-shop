@@ -1,4 +1,4 @@
-package service.Validators;
+package service.validation;
 
 import models.Employee;
 import service.exceptions.EmployeeException;
