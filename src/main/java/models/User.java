@@ -12,11 +12,14 @@ public abstract class User {
     private String name;
     private String surname;
     private String phoneNumber;
-    private Integer id;
+    private Long id;
+
+    //TODO: ID creation method to write. To understand how ID shall be implemented for 2 different users (Client / Employee)
 
     public User(String name, String surname, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
+        this.id = null;
     }
 }
