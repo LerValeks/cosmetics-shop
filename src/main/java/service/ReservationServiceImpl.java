@@ -1,12 +1,13 @@
 package service;
 
-import models.Employee;
 import models.Reservation;
+import repository.ClientDatabase;
 import repository.EmployeeDatabase;
+import validation.ClientValidator;
+import validation.EmployeeValidator;
 import validation.ReservationValidator;
 
 import java.util.List;
-import java.util.Set;
 
 public class ReservationServiceImpl implements ReservationService {
 
