@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static models.EmploymentStatus.EMPLOYED;
-import static models.UserCategory.EMPLOYEE;
 
 @Setter
 @Getter
@@ -20,57 +19,9 @@ public class Employee extends User {
     private ServiceCategory serviceCategory;
 
     public Employee(String name, String surname, String phoneNumber, ServiceCategory serviceCategory) {
-        super(name, surname, phoneNumber, EMPLOYEE);
+        super(name, surname, phoneNumber);
         this.serviceCategory = serviceCategory;
         this.reservations = new ArrayList<>();
         this.employmentStatus = EMPLOYED;
-    }
-
-    @Override
-    public String getName() {
-        return super.getName();
-    }
-
-    @Override
-    public void setName(String name) {
-        super.setName(name);
-    }
-
-    @Override
-    public String getSurname() {
-        return super.getSurname();
-    }
-
-    @Override
-    public void setSurname(String surname) {
-        super.setSurname(surname);
-    }
-
-    @Override
-    public String getPhoneNumber() {
-        return super.getPhoneNumber();
-    }
-
-    @Override
-    public void setPhoneNumber(String phoneNumber) {
-        super.setPhoneNumber(phoneNumber);
-    }
-
-    @Override
-    public Integer getId() {
-        return super.getId();
-    }
-
-    @Override
-    public void setId(Integer id) {
-        super.setId(id);
-    }
-
-    public void setServiceCategory(ServiceCategory serviceCategory) {
-        this.serviceCategory = serviceCategory;
-    }
-
-    public ServiceCategory getServiceCategory() {
-        return serviceCategory;
     }
 }
