@@ -18,6 +18,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public Client add(Client client) throws ClientException {
+
         if (!ClientValidator.IsClientValid(client)) {
             throw new ClientException("Client data is invalid");
         }
@@ -26,15 +27,16 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public Client update(Client client) throws ClientException {
+
         if (!ClientValidator.IsClientValid(client)) {
             throw new ClientException("Client data is invalid");
         }
-
         return clientServiceDao.add(client);
     }
 
     @Override
     public List<Reservation> reservationByClient(Client client) throws ClientException {
+
         if (!ClientValidator.IsClientValid(client)) {
             throw new ClientException("Client data is invalid");
         }
@@ -43,6 +45,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public Client delete(Client client) throws ClientException {
+
         if (!ClientValidator.IsClientValid(client)) {
             throw new ClientException("Client data is invalid");
         }
@@ -51,6 +54,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public List<Reservation> reservationByClientInSpecificPeriod(Client client, LocalDateTime startDate, LocalDateTime endDate) throws ClientException {
+
         if (!ClientValidator.IsClientValid(client)) {
             throw new ClientException("Client data is invalid");
         }

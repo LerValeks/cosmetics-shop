@@ -20,6 +20,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
     @Override
     public Employee add(Employee employee) throws EmployeeException {
+
         if (!EmployeeValidator.IsEmployeeValid(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
@@ -36,6 +37,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
     @Override
     public Employee delete(Employee employee) throws EmployeeException {
+
         if (!EmployeeValidator.IsEmployeeValid(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
@@ -43,7 +45,8 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     }
 
     @Override
-    public List<Employee> ServiceCategoryEmployees(ServiceCategory serviceCategory, Employee employee) throws EmployeeException {
+    public List<Employee> serviceCategoryEmployees(ServiceCategory serviceCategory, Employee employee) throws EmployeeException {
+
         if (!EmployeeValidator.IsEmployeeValid(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
@@ -51,7 +54,8 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     }
 
     @Override
-    public List<Employee> FreeEmployees(ServiceCategory serviceCategory, Employee employee, Reservation reservation) throws EmployeeException {
+    public List<Employee> freeEmployees(ServiceCategory serviceCategory, Employee employee, Reservation reservation) throws EmployeeException {
+
         if (!EmployeeValidator.IsEmployeeValid(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }

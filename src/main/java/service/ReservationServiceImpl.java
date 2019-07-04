@@ -1,34 +1,32 @@
 package service;
 
 import models.Reservation;
-import repository.ClientDatabase;
-import repository.EmployeeDatabase;
-import validation.ClientValidator;
-import validation.EmployeeValidator;
-import validation.ReservationValidator;
+import repository.ClientDAO;
+import repository.EmployeeDAO;
+import service.validation.ClientValidator_DAN;
+import service.validation.EmployeeValidator_DAN;
+import service.validation.ReservationValidator;
 
 import java.util.List;
 
 public class ReservationServiceImpl implements ReservationService {
 
-    private EmployeeDatabase employeeDatabase;
-    private ClientDatabase clientDatabase;
+    private EmployeeDAO employeeDAO;
+    private ClientDAO clientDAO;
 
-    //TODO: Robert to advise if 2 constructors are needed? Or one with 2 database parameters? How this may affect?
-
-    public ReservationServiceImpl(EmployeeDatabase employeeDatabase, ClientDatabase clientDatabase) {
-        this.employeeDatabase = employeeDatabase;
-        this.clientDatabase = clientDatabase;
+    public ReservationServiceImpl(EmployeeDAO employeeDAO, ClientDAO clientDAO) {
+        this.employeeDAO = employeeDAO;
+        this.clientDAO = clientDAO;
     }
 
     @Override
-    public Reservation bookVisit(Reservation reservation) {
+    public Reservation makeReservation(Reservation reservation) {
 
         if (!ReservationValidator.validateReservationParameters(reservation)) {
 //throw exception - reservation fields are incorrect
         }
 
-        if (!EmployeeValidator.validateIfCurrentEmployee(reservation)) {
+        if (!EmployeeValidator_DAN.validateIfCurrentEmployee(reservation)) {
 //throw exception - employee is not working anymore
         }
 
@@ -36,18 +34,18 @@ public class ReservationServiceImpl implements ReservationService {
 //throw exception - this time is booked already
         }
 
-        if (!ClientValidator.validateClientParameters(reservation)) {
+        if (!ClientValidator_DAN.validateClientParameters(reservation)) {
 //throw exception - client fields are incorrect
         }
 
 
-        if (!ClientValidator.validateIfCurrentClient(reservation)) {
+        if (!ClientValidator_DAN.validateIfCurrentClient(reservation)) {
 
-            clientDatabase.addToDatabase(reservation.getClient());
+            clientDAO.add(reservation.getClient());
 
         } else {
 
-            if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
+            if (ClientValidator_DAN.validateClientHasReservationAtTheSameTime(reservation)) {
                 //throw exception - client has a reservation at the suggested time
             }
         }
@@ -56,12 +54,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> displayVisit(String phoneNumber) {
+    public List<Reservation> displayReservation(String phoneNumber) {
         return null;
     }
 
     @Override
-    public Long cancelVisit(Reservation reservation) {
+    public Long cancelReservation(Reservation reservation) {
         return null;
     }
 }
