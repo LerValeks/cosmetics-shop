@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface EmployeeServiceDAO {
 
-
     Employee add(Employee employee) throws EmployeeException;
 
     Employee update(Employee employee) throws EmployeeException;
@@ -24,6 +23,4 @@ public interface EmployeeServiceDAO {
     List<Reservation> reservationByEmployeeInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate) throws EmployeeException;
 
     List<Reservation> reservationByEmployeeByServiceCategoryInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate, ServiceCategory serviceCategory) throws EmployeeException;
-
-
 }
