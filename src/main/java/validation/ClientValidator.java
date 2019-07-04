@@ -25,11 +25,11 @@ public class ClientValidator {
     }
 
     public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) {
-
+//TODO: Ammend lambda
         employeeDatabase.getAllItemsFromDatabase().stream()
                 .filter(employee -> employee.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
                 .map(employee -> employee.getReservations())
-                .flatMap(reservations -> reservation.getReservationTime())
+         //       .flatMap(reservations -> reservation.getReservationTime())
                 .collect(Collectors.toList());
 
         return false;
