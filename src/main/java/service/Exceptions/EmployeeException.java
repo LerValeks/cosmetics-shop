@@ -1,4 +1,4 @@
-package service.Exceptions;
+package service.exceptions;
 
 public class EmployeeException extends Exception {
     public EmployeeException(String message) {
