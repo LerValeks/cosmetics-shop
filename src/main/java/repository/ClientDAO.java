@@ -6,7 +6,6 @@ import java.util.Set;
 
 public class ClientDAO implements DAOItem<Client> {
 
-
     @Override
     public Client add(Client domain) {
         return null;

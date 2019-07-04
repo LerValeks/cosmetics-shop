@@ -14,6 +14,7 @@ import java.util.List;
 
 public class ReservationServiceImpl {
 
+    //TODO: Dan/Robert to discuss if shall be final or static and how static/final may affect?
     private EmployeeDAO employeeDAO;
     private ClientDAO clientDAO;
 
