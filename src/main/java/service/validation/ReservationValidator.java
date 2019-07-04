@@ -1,14 +1,13 @@
-package validation;
+package service.validation;
 
-import models.Employee;
 import models.Reservation;
-import repository.EmployeeDatabase;
+import repository.EmployeeDAO;
 
 import java.time.LocalDateTime;
 
 public class ReservationValidator {
 
-    private static EmployeeDatabase employeeDatabase;
+    private static EmployeeDAO employeeDAO;
 
     public static boolean validateReservationParameters(Reservation reservation) {
 
@@ -23,12 +22,12 @@ public class ReservationValidator {
 
     //TODO: Dan to investigate how 1 particular employee to be retrieved from DB
     //TODO: Dan to add null exception handler if no employee retrieved from DB
-
     public static boolean validateReservationTimeAvailable(Reservation reservation) {
 
-        Employee employee = employeeDatabase.getItemFromDatabase(reservation.getEmployee().getId()); //Write this method more exactly
+        // Employee employee = employeeDAO.getItemFromDatabase(reservation.getEmployee().getId()); //Write this method more exactly
 
-        return employee.getReservations().contains(reservation.getReservationTime());
+        // return employee.getReservations().contains(reservation.getReservationTime());
+        return true;
     }
 
     private static boolean validateServiceCategory(Reservation reservation) {

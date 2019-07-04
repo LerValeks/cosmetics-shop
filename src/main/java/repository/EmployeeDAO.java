@@ -2,7 +2,7 @@ package repository;
 
 import models.Employee;
 
-import java.util.List;
+import java.util.Set;
 
 public class EmployeeDAO implements DAOItem<Employee> {
 
@@ -27,7 +27,7 @@ public class EmployeeDAO implements DAOItem<Employee> {
     }
 
     @Override
-    public List<Employee> getAllItems() {
+    public Set<Employee> getAllItems() {
         return null;
     }
 }

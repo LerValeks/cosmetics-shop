@@ -10,34 +10,34 @@ import java.util.List;
 
 public class ClientServiceDAOImpl implements ClientServiceDAO {
 
-    private final ClientServiceDAO clientServiceDao;
+    private final ClientServiceDAO clientServiceDAO;
 
-    public ClientServiceDAOImpl(ClientServiceDAO clientServiceDao) {
-        this.clientServiceDao = clientServiceDao;
+    public ClientServiceDAOImpl(ClientServiceDAO clientServiceDAO) {
+        this.clientServiceDAO = clientServiceDAO;
     }
 
     @Override
     public Client add(Client client) throws ClientException {
 
-        if (!ClientValidator.IsClientValid(client)) {
+        if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
-        return clientServiceDao.add(client);
+        return clientServiceDAO.add(client);
     }
 
     @Override
     public Client update(Client client) throws ClientException {
 
-        if (!ClientValidator.IsClientValid(client)) {
+        if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
-        return clientServiceDao.add(client);
+        return clientServiceDAO.add(client);
     }
 
     @Override
     public List<Reservation> reservationByClient(Client client) throws ClientException {
 
-        if (!ClientValidator.IsClientValid(client)) {
+        if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
         return null;
@@ -46,16 +46,16 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
     @Override
     public Client delete(Client client) throws ClientException {
 
-        if (!ClientValidator.IsClientValid(client)) {
+        if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
-        return clientServiceDao.delete(client);
+        return clientServiceDAO.delete(client);
     }
 
     @Override
     public List<Reservation> reservationByClientInSpecificPeriod(Client client, LocalDateTime startDate, LocalDateTime endDate) throws ClientException {
 
-        if (!ClientValidator.IsClientValid(client)) {
+        if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
         return null;

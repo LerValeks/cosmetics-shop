@@ -1,44 +1,47 @@
 package service.validation;
 
 import models.Employee;
+import models.EmploymentStatus;
+import models.Reservation;
+import repository.EmployeeDAO;
 import service.exceptions.EmployeeException;
 
 public class EmployeeValidator {
 
-    public static boolean IsEmployeeValid(Employee employee) throws EmployeeException {
-        if (employee == null) {
-            throw new EmployeeException ("Employee is null");
-        } else {
-            return (IsEmployeeServiceCategoryValid(employee)&IsEmployeePhoneNumberValid(employee)&
-                    IsEmployeeNameValid(employee)&IsEmployeeSurnameValid(employee));
-        }
+    private static EmployeeDAO employeeDAO;
+
+    //TODO: Robert to advise how making employeedatabase object "Static" will affect the code? In reservation service this isn't static, shall be? Why in general it's prohibited calling statics from non-static context?
+
+    public static boolean validateClientParameters(Employee employee) throws EmployeeException {
+
+        return validateEmployeeName(employee)
+                && validateEmployeeSurname(employee)
+                && validateEmployeePhone(employee)
+                && validateEmployeeserviceCategory(employee);
     }
 
-    public static boolean IsEmployeeNameValid(Employee employee) throws EmployeeException {
-        if (employee.getName() == null) {
-            throw new EmployeeException ("Attribute of Employee is null");
-        }
-        return true;
+    public static boolean validateIfCurrentEmployee(Reservation reservation) {
+
+        return employeeDAO.getAllItems().contains(reservation.getEmployee().getEmploymentStatus() == EmploymentStatus.EMPLOYED);
     }
 
-    public static boolean IsEmployeeSurnameValid(Employee employee) throws EmployeeException {
-        if (employee.getSurname() == null) {
-            throw new EmployeeException ("Attribute of Employee is null");
-        }
-        return true;
+    private static boolean validateEmployeeName(Employee employee) {
+
+        return employee.getName() != null;
     }
 
-    public static boolean IsEmployeePhoneNumberValid(Employee employee) throws EmployeeException {
-        if (employee.getPhoneNumber() == null) {
-            throw new EmployeeException ("Attribute of Employee is null");
-        }
-        return true;
+    private static boolean validateEmployeeSurname(Employee employee) {
+
+        return employee.getSurname() != null;
     }
 
-    public static boolean IsEmployeeServiceCategoryValid(Employee employee)throws EmployeeException {
-        if (employee.getServiceCategory() == null) {
-            throw new EmployeeException ("Attribute of Employee is null");
-        }
-        return true;
+    private static boolean validateEmployeePhone(Employee employee) {
+
+        return employee.getPhoneNumber() != null;
+    }
+
+    private static boolean validateEmployeeserviceCategory(Employee employee) {
+
+        return employee.getServiceCategory() != null;
     }
 }

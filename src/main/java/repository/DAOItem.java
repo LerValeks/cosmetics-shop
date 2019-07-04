@@ -1,6 +1,6 @@
 package repository;
 
-import java.util.List;
+import java.util.Set;
 
 public interface DAOItem<T> {
 
@@ -8,10 +8,9 @@ public interface DAOItem<T> {
 
     T delete(T domain);
 
-
     T update(T domain);
 
     T getItem(Long id);
 
-    List<T> getAllItems();
+    Set<T> getAllItems();
 }

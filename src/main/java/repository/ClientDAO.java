@@ -2,7 +2,7 @@ package repository;
 
 import models.Client;
 
-import java.util.List;
+import java.util.Set;
 
 public class ClientDAO implements DAOItem<Client> {
 
@@ -28,7 +28,7 @@ public class ClientDAO implements DAOItem<Client> {
     }
 
     @Override
-    public List<Client> getAllItems() {
+    public Set<Client> getAllItems() {
         return null;
     }
 }
