@@ -1,20 +1,17 @@
 package validation;
 
-import models.Employee;
+import models.EmploymentStatus;
 import models.Reservation;
-
-import java.util.Set;
+import repository.EmployeeDatabase;
 
 public class EmployeeValidator {
 
-    private static boolean validateIfAvailableEmployee(Reservation reservation, Set<Employee> availableEmployees) {
+    private static EmployeeDatabase employeeDatabase;
 
-        Employee employee = reservation.getEmployee();
+    //TODO: Robert to advise how making employeedatabase object "Static" will affect the code? In reservation service this isn't static, shall be? Why in general it's prohibited calling statics from non-static context?
 
-        return availableEmployees.contains(employee);
-    }
+    public static boolean validateIfCurrentEmployee(Reservation reservation) {
 
-    private static boolean validateIfAvailableReservatopTime(Reservation reservation, Employee availableEmployees) {
-        return false;
+        return employeeDatabase.getAllItemsFromDatabase().contains(reservation.getEmployee().getEmploymentStatus() == EmploymentStatus.EMPLOYED);
     }
 }

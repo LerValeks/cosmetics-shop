@@ -1,16 +1,52 @@
 package validation;
 
-import models.Client;
+import models.EmploymentStatus;
 import models.Reservation;
+import repository.ClientDatabase;
+import repository.EmployeeDatabase;
 
-import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ClientValidator {
 
-    private static boolean validateIfNewClient(Reservation reservation, Set<Client> registeredClients) {
+    private static ClientDatabase clientDatabase;
+    private static EmployeeDatabase employeeDatabase;
 
-        Client client = reservation.getClient();
+    public static boolean validateClientParameters(Reservation reservation) {
 
-        return registeredClients.contains(client);
+        return validateClientName(reservation)
+                && validateClientSurname(reservation)
+                && validateClientPhone(reservation);
+    }
+
+    public static boolean validateIfCurrentClient(Reservation reservation) {
+
+        return clientDatabase.getAllItemsFromDatabase().contains(reservation.getClient());
+    }
+
+    public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) {
+
+        employeeDatabase.getAllItemsFromDatabase().stream()
+                .filter(employee -> employee.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
+                .map(employee -> employee.getReservations())
+                .flatMap(reservations -> reservation.getReservationTime())
+                .collect(Collectors.toList());
+
+        return false;
+    }
+
+    private static boolean validateClientName(Reservation reservation) {
+
+        return reservation.getClient().getName() != null;
+    }
+
+    private static boolean validateClientSurname(Reservation reservation) {
+
+        return reservation.getClient().getSurname() != null;
+    }
+
+    private static boolean validateClientPhone(Reservation reservation) {
+
+        return reservation.getClient().getPhoneNumber() != null;
     }
 }
