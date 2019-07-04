@@ -4,31 +4,30 @@ import models.Employee;
 
 import java.util.List;
 
-public class EmployeeDAO extends DAOitemAbstr<Employee> implements DAOitem<Employee> {
+public class EmployeeDAO implements DAOItem<Employee> {
 
     @Override
     public Employee add(Employee domain) {
-        return super.add(domain);
+        return null;
     }
 
     @Override
     public Employee delete(Employee domain) {
-        return super.delete(domain);
+        return null;
     }
 
     @Override
     public Employee update(Employee domain) {
-        return super.update(domain);
+        return null;
     }
 
     @Override
-    public Employee get(Number id) {
-        return super.get(id);
+    public Employee getItem(Long id) {
+        return null;
     }
 
-
     @Override
-    public List<Employee> getAllItemsFromDAO() {
-        return super.getAllItemsFromDAO();
+    public List<Employee> getAllItems() {
+        return null;
     }
 }

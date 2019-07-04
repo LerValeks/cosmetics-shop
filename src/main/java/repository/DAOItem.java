@@ -2,7 +2,7 @@ package repository;
 
 import java.util.List;
 
-public interface DAOitem<T> {
+public interface DAOItem<T> {
 
     T add(T domain);
 
@@ -11,7 +11,7 @@ public interface DAOitem<T> {
 
     T update(T domain);
 
-    T get(Number id);
+    T getItem(Long id);
 
-    List<T> getAllItemsFromDAO();
+    List<T> getAllItems();
 }
