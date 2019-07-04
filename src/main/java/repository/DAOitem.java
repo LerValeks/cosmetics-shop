@@ -8,6 +8,7 @@ public interface DAOitem<T> {
 
     T delete(T domain);
 
+
     T update(T domain);
 
     T get(Number id);

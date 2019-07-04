@@ -11,6 +11,7 @@ public class ClientDAO extends DAOitemAbstr<Client> implements DAOitem<Client> {
         return super.add(domain);
     }
 
+
     @Override
     public Client delete(Client domain) {
         return super.delete(domain);

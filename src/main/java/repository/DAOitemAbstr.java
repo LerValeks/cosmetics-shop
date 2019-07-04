@@ -20,6 +20,7 @@ public abstract class DAOitemAbstr<T> implements DAOitem<T> {
     }
 
 
+
     @Override
     public T get(Number id) {
         return null;
