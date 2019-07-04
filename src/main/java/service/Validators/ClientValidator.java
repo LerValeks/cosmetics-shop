@@ -1,7 +1,7 @@
 package service.Validators;
 
 import models.Client;
-import service.Exceptions.ClientException;
+import service.exceptions.ClientException;
 
 public class ClientValidator {
     public static boolean IsClientValid(Client client) throws ClientException {

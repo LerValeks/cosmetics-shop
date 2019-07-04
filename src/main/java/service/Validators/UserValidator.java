@@ -3,7 +3,7 @@ package service.Validators;
 import models.Client;
 import models.Employee;
 import models.User;
-import service.Exceptions.UserException;
+import service.exceptions.UserException;
 
 public class UserValidator {
 

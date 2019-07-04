@@ -1,7 +1,7 @@
 package service.Validators;
 
 import models.Employee;
-import service.Exceptions.EmployeeException;
+import service.exceptions.EmployeeException;
 
 public class EmployeeValidator {
 
