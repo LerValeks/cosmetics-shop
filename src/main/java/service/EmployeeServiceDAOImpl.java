@@ -4,8 +4,8 @@ import models.Employee;
 import models.Reservation;
 import models.ServiceCategory;
 import repository.EmployeeDAO;
-import service.Exceptions.EmployeeException;
 import service.Validators.EmployeeValidator;
+import service.exceptions.EmployeeException;
 
 import java.time.LocalDateTime;
 import java.util.List;

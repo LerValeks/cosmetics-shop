@@ -2,9 +2,8 @@ package service;
 
 import models.Client;
 import models.Reservation;
-import repository.ClientDAO;
-import service.Exceptions.ClientException;
 import service.Validators.ClientValidator;
+import service.exceptions.ClientException;
 
 import java.time.LocalDateTime;
 import java.util.List;

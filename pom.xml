@@ -25,6 +25,6 @@
         </dependency>
     </dependencies>
     <groupId>pl.dreamteam</groupId>
-    <artifactId>cosmetics shop</artifactId>
+    <artifactId>cosmetics-shop</artifactId>
     <version>1.0-SNAPSHOT</version>
 </project>
