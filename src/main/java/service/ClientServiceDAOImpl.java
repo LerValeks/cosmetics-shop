@@ -18,7 +18,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
     }
 
     @Override
-    public Client add(Client client) throws ClientException  {
+    public Client add(Client client) throws ClientException{
         ClientValidator.validateClientParameters(client);
         return clientDAO.add(client);
     }

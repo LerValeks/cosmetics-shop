@@ -17,8 +17,8 @@ public class ClientValidator {
     public static boolean validateClientParameters(Client client) throws ClientException {
         validateClientIsNull(client);
          if (validateClientName(client)
-                && validateClientSurname(client)
-                && validateClientPhone(client)) {
+                || validateClientSurname(client)
+                || validateClientPhone(client)) {
             throw new ClientException("Client attributes are null");
         }
         return true;
@@ -49,16 +49,16 @@ public class ClientValidator {
 
     private static boolean validateClientName(Client client) {
 
-        return client.getName() != null;
+        return client.getName() == null;
     }
 
     private static boolean validateClientSurname(Client client) {
 
-        return client.getSurname() != null;
+        return client.getSurname() == null;
     }
 
     private static boolean validateClientPhone(Client client) {
 
-        return client.getPhoneNumber() != null;
+        return client.getPhoneNumber() == null;
     }
 }
