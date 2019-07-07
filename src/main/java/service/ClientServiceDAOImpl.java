@@ -18,11 +18,8 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
     }
 
     @Override
-    public Client add(Client client) throws ClientException {
-
-        if (!ClientValidator.validateClientParameters(client)) {
-            throw new ClientException("Client data is invalid");
-        }
+    public Client add(Client client) throws ClientException  {
+        ClientValidator.validateClientParameters(client);
         return clientDAO.add(client);
     }
 

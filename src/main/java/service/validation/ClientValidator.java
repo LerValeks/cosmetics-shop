@@ -15,13 +15,21 @@ public class ClientValidator {
     private static EmployeeDAO employeeDAO;
 
     public static boolean validateClientParameters(Client client) throws ClientException {
-
-        return validateClientName(client)
+        validateClientIsNull(client);
+         if (validateClientName(client)
                 && validateClientSurname(client)
-                && validateClientPhone(client);
+                && validateClientPhone(client)) {
+            throw new ClientException("Client attributes are null");
+        }
+        return true;
     }
 
-
+    public static boolean validateClientIsNull(Client client) throws ClientException  {
+        if (client==null) {
+            throw new ClientException("Client is null");
+        }
+        return true;
+    }
 
     public static boolean validateIfCurrentClient(Client client) {
 
