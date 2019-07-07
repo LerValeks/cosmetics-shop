@@ -2,6 +2,8 @@ package service.validation;
 
 import models.Reservation;
 import repository.EmployeeDAO;
+import service.exceptions.EmployeeException;
+import service.exceptions.ReservationException;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +11,7 @@ public class ReservationValidator {
 
     private static EmployeeDAO employeeDAO;
 
-    public static boolean validateReservationParameters(Reservation reservation) {
+    public static boolean validateReservationParameters(Reservation reservation) throws EmployeeException {
 
         if (reservation == null) return false;
 
@@ -20,14 +22,12 @@ public class ReservationValidator {
                 && validateReservationTimeNotInPast(reservation);
     }
 
-    //TODO: Dan to investigate how 1 particular employee to be retrieved from DB
-    //TODO: Dan to add null exception handler if no employee retrieved from DB
-    public static boolean validateReservationTimeAvailable(Reservation reservation) {
+    public static boolean validateReservationTimeAvailable(Reservation reservation) throws ReservationException {
 
-        // Employee employee = employeeDAO.getItemFromDatabase(reservation.getEmployee().getId()); //Write this method more exactly
-
-        // return employee.getReservations().contains(reservation.getReservationTime());
-        return true;
+        return employeeDAO.getItem(reservation.getEmployee().getId())
+                .getReservations().stream()
+                .map(Reservation::getReservationTime)
+                .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 
     private static boolean validateServiceCategory(Reservation reservation) {

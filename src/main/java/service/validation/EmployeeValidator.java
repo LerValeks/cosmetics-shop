@@ -4,7 +4,10 @@ import models.Employee;
 import models.EmploymentStatus;
 import models.Reservation;
 import repository.EmployeeDAO;
+import service.exceptions.ClientException;
 import service.exceptions.EmployeeException;
+
+import java.util.stream.Collectors;
 
 public class EmployeeValidator {
 
@@ -20,9 +23,11 @@ public class EmployeeValidator {
                 && validateEmployeeserviceCategory(employee);
     }
 
-    public static boolean validateIfCurrentEmployee(Reservation reservation) {
+    public static boolean validateIfCurrentEmployee(Reservation reservation) throws ClientException {
 
-        return employeeDAO.getAllItems().contains(reservation.getEmployee().getEmploymentStatus() == EmploymentStatus.EMPLOYED);
+        return employeeDAO.getAllItems().stream()
+                .filter(employee -> employee.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
+                .collect(Collectors.toSet()).contains(reservation.getEmployee());
     }
 
     private static boolean validateEmployeeName(Employee employee) {

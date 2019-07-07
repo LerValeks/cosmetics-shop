@@ -1,13 +1,14 @@
 package service.validation;
 
 import models.Client;
+import models.Employee;
 import models.EmploymentStatus;
 import models.Reservation;
 import repository.ClientDAO;
 import repository.EmployeeDAO;
 import service.exceptions.ClientException;
 
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 public class ClientValidator {
 
@@ -21,20 +22,20 @@ public class ClientValidator {
                 && validateClientPhone(client);
     }
 
-    public static boolean validateIfCurrentClient(Client client) {
+    public static boolean validateIfCurrentClient(Client client) throws ClientException {
 
         return clientDAO.getAllItems().contains(client);
     }
 
-    //TODO: Correct lambda
-    public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) {
+    public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
 
-        employeeDAO.getAllItems().stream()
+        return employeeDAO.getAllItems().stream()
                 .filter(employee -> employee.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
-                .map(employee -> employee.getReservations())
-                //       .flatMap(reservations -> reservation.getReservationTime())
-                .collect(Collectors.toList());
-        return false;
+                .map(Employee::getReservations)
+                .flatMap(Collection::stream)
+                .filter(reservation1 -> reservation1.getClient().equals(reservation.getClient()))
+                .map(Reservation::getReservationTime)
+                .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 
     private static boolean validateClientName(Client client) {
