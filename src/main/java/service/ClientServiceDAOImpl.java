@@ -2,6 +2,7 @@ package service;
 
 import models.Client;
 import models.Reservation;
+import repository.ClientDAO;
 import service.exceptions.ClientException;
 import service.validation.ClientValidator;
 
@@ -10,10 +11,10 @@ import java.util.List;
 
 public class ClientServiceDAOImpl implements ClientServiceDAO {
 
-    private final ClientServiceDAO clientServiceDAO;
+    private final ClientDAO clientDAO;
 
-    public ClientServiceDAOImpl(ClientServiceDAO clientServiceDAO) {
-        this.clientServiceDAO = clientServiceDAO;
+    public ClientServiceDAOImpl(ClientDAO clientDAO) {
+        this.clientDAO = clientDAO;
     }
 
     @Override
@@ -22,7 +23,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
         if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
-        return clientServiceDAO.add(client);
+        return clientDAO.add(client);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
         if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
-        return clientServiceDAO.add(client);
+        return clientDAO.add(client);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
         if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client data is invalid");
         }
-        return clientServiceDAO.delete(client);
+        return clientDAO.delete(client);
     }
 
     @Override
