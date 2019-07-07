@@ -21,6 +21,8 @@ public class ClientValidator {
                 && validateClientPhone(client);
     }
 
+
+
     public static boolean validateIfCurrentClient(Client client) {
 
         return clientDAO.getAllItems().contains(client);

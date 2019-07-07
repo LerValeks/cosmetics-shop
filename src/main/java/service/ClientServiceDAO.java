@@ -7,7 +7,7 @@ import service.exceptions.ClientException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//TODO: Alex - this can be merged into 1 interface and used both for client and employee
+
 public interface ClientServiceDAO {
 
     Client add(Client client) throws ClientException;
