@@ -30,11 +30,11 @@ public class ReservationServiceImpl {
         }
 
         if (!EmployeeValidator.validateIfCurrentEmployee(reservation)) {
-            throw new EmployeeException("TBC");
+            throw new EmployeeException("Employee not found!");
         }
 
         if (ReservationValidator.validateReservationTimeAvailable(reservation)) {
-            throw new ReservationException("TBC");
+            throw new ReservationException("This employee has reservation at proposed time. Please choose another time!");
         }
 
         if (!ClientValidator.validateClientParameters(reservation.getClient())) {
@@ -43,11 +43,10 @@ public class ReservationServiceImpl {
 
         if (!ClientValidator.validateIfCurrentClient(reservation.getClient())) {
             clientDAO.add(reservation.getClient());
-        } else {
-            if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
-                throw new ClientException("TBC");
-            }
+        } else if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
+            throw new ClientException("You have reservation at the requested time");
         }
+        reservation.getEmployee().getReservations().add(reservation);
         return reservation;
     }
 
