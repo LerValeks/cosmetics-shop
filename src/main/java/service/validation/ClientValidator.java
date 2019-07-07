@@ -21,6 +21,10 @@ public class ClientValidator {
                 || validateClientPhone(client)) {
             throw new ClientException("Client attributes are null");
         }
+         //TODO ValidateDuplicates
+       /* if (validateIfCurrentClient(client)) {
+            throw new ClientException("Such client already exist in Database");
+        } */
         return true;
     }
 
@@ -31,12 +35,14 @@ public class ClientValidator {
         return true;
     }
 
-    public static boolean validateIfCurrentClient(Client client) {
+    //TODO change name to validateIfCurrentClientIsDuplicate
+    public static boolean validateIfCurrentClient(Client client)  {
 
         return clientDAO.getAllItems().contains(client);
     }
 
     //TODO: Correct lambda
+    //TODO: Aleks suggest to transfer to separate class
     public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) {
 
         employeeDAO.getAllItems().stream()
@@ -47,16 +53,18 @@ public class ClientValidator {
         return false;
     }
 
+    //TODO change to ValidateClientNameIsNull
     private static boolean validateClientName(Client client) {
 
         return client.getName() == null;
     }
 
+    //TODO change to ValidateClientSurnameIsNull
     private static boolean validateClientSurname(Client client) {
 
         return client.getSurname() == null;
     }
-
+    //TODO change to ValidateClienPhoneIsNull
     private static boolean validateClientPhone(Client client) {
 
         return client.getPhoneNumber() == null;

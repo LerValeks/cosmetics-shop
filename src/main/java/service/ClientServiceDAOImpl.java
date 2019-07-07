@@ -25,37 +25,26 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public Client update(Client client) throws ClientException {
-
-        if (!ClientValidator.validateClientParameters(client)) {
-            throw new ClientException("Client data is invalid");
-        }
+        ClientValidator.validateClientParameters(client);
         return clientDAO.add(client);
     }
 
     @Override
     public List<Reservation> reservationByClient(Client client) throws ClientException {
-
-        if (!ClientValidator.validateClientParameters(client)) {
-            throw new ClientException("Client data is invalid");
-        }
+        ClientValidator.validateClientIsNull(client);
         return null;
     }
 
     @Override
     public Client delete(Client client) throws ClientException {
 
-        if (!ClientValidator.validateClientParameters(client)) {
-            throw new ClientException("Client data is invalid");
-        }
+        ClientValidator.validateClientParameters(client);
         return clientDAO.delete(client);
     }
 
     @Override
     public List<Reservation> reservationByClientInSpecificPeriod(Client client, LocalDateTime startDate, LocalDateTime endDate) throws ClientException {
-
-        if (!ClientValidator.validateClientParameters(client)) {
-            throw new ClientException("Client data is invalid");
-        }
+        ClientValidator.validateClientIsNull(client);
         return null;
     }
 }
