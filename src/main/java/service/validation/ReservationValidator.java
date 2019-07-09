@@ -15,10 +15,10 @@ public class ReservationValidator {
 
         if (reservation == null) return false;
 
-        return validateServiceCategory(reservation)
-                && validateEmployee(reservation)
-                && validateClient(reservation)
-                && validateReservationTime(reservation)
+        return validateServiceCategoryIsNotNull(reservation)
+                && validateEmployeeIsNotNull(reservation)
+                && validateClientIsNotNull(reservation)
+                && validateReservationTimeIsNotNull(reservation)
                 && validateReservationTimeNotInPast(reservation);
     }
 
@@ -30,22 +30,22 @@ public class ReservationValidator {
                 .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 
-    private static boolean validateServiceCategory(Reservation reservation) {
+    private static boolean validateServiceCategoryIsNotNull(Reservation reservation) {
 
         return reservation.getServiceCategory() != null;
     }
 
-    private static boolean validateEmployee(Reservation reservation) {
+    private static boolean validateEmployeeIsNotNull(Reservation reservation) {
 
         return reservation.getEmployee() != null;
     }
 
-    private static boolean validateClient(Reservation reservation) {
+    private static boolean validateClientIsNotNull(Reservation reservation) {
 
         return reservation.getClient() != null;
     }
 
-    private static boolean validateReservationTime(Reservation reservation) {
+    private static boolean validateReservationTimeIsNotNull(Reservation reservation) {
 
         return reservation.getReservationTime() != null;
     }

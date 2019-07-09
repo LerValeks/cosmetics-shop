@@ -17,10 +17,12 @@ public class EmployeeValidator {
 
     public static boolean validateClientParameters(Employee employee) throws EmployeeException {
 
-        return validateEmployeeName(employee)
-                && validateEmployeeSurname(employee)
-                && validateEmployeePhone(employee)
-                && validateEmployeeserviceCategory(employee);
+        if (employee == null) return false;
+
+        return validateEmployeeNameIsNotNull(employee)
+                && validateEmployeeSurnameIsNotNull(employee)
+                && validateEmployeePhoneIsNotNull(employee)
+                && validateEmployeeserviceCategoryIsNotNull(employee);
     }
 
     public static boolean validateIfCurrentEmployee(Reservation reservation) throws ClientException {
@@ -30,22 +32,22 @@ public class EmployeeValidator {
                 .collect(Collectors.toSet()).contains(reservation.getEmployee());
     }
 
-    private static boolean validateEmployeeName(Employee employee) {
+    private static boolean validateEmployeeNameIsNotNull(Employee employee) {
 
         return employee.getName() != null;
     }
 
-    private static boolean validateEmployeeSurname(Employee employee) {
+    private static boolean validateEmployeeSurnameIsNotNull(Employee employee) {
 
         return employee.getSurname() != null;
     }
 
-    private static boolean validateEmployeePhone(Employee employee) {
+    private static boolean validateEmployeePhoneIsNotNull(Employee employee) {
 
         return employee.getPhoneNumber() != null;
     }
 
-    private static boolean validateEmployeeserviceCategory(Employee employee) {
+    private static boolean validateEmployeeserviceCategoryIsNotNull(Employee employee) {
 
         return employee.getServiceCategory() != null;
     }

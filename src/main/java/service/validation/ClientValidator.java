@@ -17,9 +17,11 @@ public class ClientValidator {
 
     public static boolean validateClientParameters(Client client) throws ClientException {
 
-        return validateClientName(client)
-                && validateClientSurname(client)
-                && validateClientPhone(client);
+        if (client == null) return false;
+
+        return validateClientNameIsNotNull(client)
+                && validateClientSurnameIsNotNull(client)
+                && validateClientPhoneIsNotNull(client);
     }
 
     public static boolean validateIfCurrentClient(Client client) throws ClientException {
@@ -38,17 +40,17 @@ public class ClientValidator {
                 .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 
-    private static boolean validateClientName(Client client) {
+    private static boolean validateClientNameIsNotNull(Client client) {
 
         return client.getName() != null;
     }
 
-    private static boolean validateClientSurname(Client client) {
+    private static boolean validateClientSurnameIsNotNull(Client client) {
 
         return client.getSurname() != null;
     }
 
-    private static boolean validateClientPhone(Client client) {
+    private static boolean validateClientPhoneIsNotNull(Client client) {
 
         return client.getPhoneNumber() != null;
     }
