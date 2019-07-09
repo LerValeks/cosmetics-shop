@@ -14,8 +14,8 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
     private final EmployeeDAO employeeDAO;
 
-    public EmployeeServiceDAOImpl(EmployeeDAO employeeDAO, EmployeeDAO employeeDAO1) throws EmployeeException {
-        this.employeeDAO = employeeDAO1;
+    public EmployeeServiceDAOImpl(EmployeeDAO employeeDAO) {
+        this.employeeDAO = employeeDAO;
     }
 
     @Override
