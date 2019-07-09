@@ -32,7 +32,7 @@ public class ClientServiceDAOImplTest {
 
     @Before
     public void setup() {
-        this.clientServiceDAO = new ClientServiceDAOImpl(clientDAO);
+        this.clientServiceDAO = new ClientServiceDAOImpl(clientServiceDAO);
     }
 
     @Test

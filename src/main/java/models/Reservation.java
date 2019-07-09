@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+//TODO: add reservation ID
 @AllArgsConstructor
 @Getter
 @Setter
