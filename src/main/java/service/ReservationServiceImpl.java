@@ -11,6 +11,7 @@ import service.validation.EmployeeValidator;
 import service.validation.ReservationValidator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReservationServiceImpl {
 
@@ -23,7 +24,7 @@ public class ReservationServiceImpl {
         this.clientDAO = clientDAO;
     }
 
-    public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
+    public boolean makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
         if (!ReservationValidator.validateReservationParameters(reservation)) {
             throw new ReservationException("Reservation parameters have been incorrectly initialized!");
@@ -33,7 +34,7 @@ public class ReservationServiceImpl {
             throw new EmployeeException("Employee not found!");
         }
 
-        if (ReservationValidator.validateReservationTimeAvailable(reservation)) {
+        if (ReservationValidator.validateReservationTimeIsAvailable(reservation)) {
             throw new ReservationException("This employee has reservation at proposed time. Please choose another time!");
         }
 
@@ -46,15 +47,24 @@ public class ReservationServiceImpl {
         } else if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
             throw new ClientException("You have reservation at the requested time");
         }
-        reservation.getEmployee().getReservations().add(reservation);
-        return reservation;
+        return reservation.getEmployee().getReservations().add(reservation);
     }
 
+    //TODO: Robert to advsie why Set cannot be used in flatMap?
     public List<Reservation> displayReservation(String phoneNumber) {
-        return null;
+
+        return employeeDAO.getAllItems().stream()
+                .map(employee -> employee.getReservations())
+                .flatMap(List::stream)
+                .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
+                .collect(Collectors.toList());
     }
 
-    public Long cancelReservation(Reservation reservation) {
-        return null;
+    public boolean cancelReservation(Reservation reservation) throws ReservationException {
+
+        if (ReservationValidator.validateReservationIsTimeNotInPast(reservation)) {
+            throw new ReservationException("Past due reservation cannot be cancelled!");
+        }
+        return employeeDAO.getItem(reservation.getEmployee().getId()).getReservations().remove(reservation);
     }
 }

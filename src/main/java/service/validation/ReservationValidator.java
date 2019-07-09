@@ -19,15 +19,25 @@ public class ReservationValidator {
                 && validateEmployeeIsNotNull(reservation)
                 && validateClientIsNotNull(reservation)
                 && validateReservationTimeIsNotNull(reservation)
-                && validateReservationTimeNotInPast(reservation);
+                && validateReservationIsTimeNotInPast(reservation);
     }
 
-    public static boolean validateReservationTimeAvailable(Reservation reservation) throws ReservationException {
+    public static boolean validateReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
 
         return employeeDAO.getItem(reservation.getEmployee().getId())
                 .getReservations().stream()
                 .map(Reservation::getReservationTime)
                 .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
+    }
+
+    public static boolean validateReservationIsAvailable(Reservation reservation) throws ReservationException {
+
+        return employeeDAO.getItem(reservation.getEmployee().getId())
+                .getReservations().contains(reservation);
+    }
+
+    public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
+        return !reservation.getReservationTime().isBefore(LocalDateTime.now());
     }
 
     private static boolean validateServiceCategoryIsNotNull(Reservation reservation) {
@@ -48,9 +58,5 @@ public class ReservationValidator {
     private static boolean validateReservationTimeIsNotNull(Reservation reservation) {
 
         return reservation.getReservationTime() != null;
-    }
-
-    private static boolean validateReservationTimeNotInPast(Reservation reservation) {
-        return !reservation.getReservationTime().isBefore(LocalDateTime.now());
     }
 }
