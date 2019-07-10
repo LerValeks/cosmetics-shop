@@ -2,7 +2,6 @@ package service.validation;
 
 import models.Reservation;
 import repository.EmployeeDAO;
-import service.exceptions.EmployeeException;
 import service.exceptions.ReservationException;
 
 import java.time.LocalDateTime;
@@ -11,7 +10,9 @@ public class ReservationValidator {
 
     private static EmployeeDAO employeeDAO;
 
-    public static boolean validateReservationParameters(Reservation reservation) throws EmployeeException {
+    //TODO: Dan to add validation of employee specialization vs. reservation service requried!
+
+    public static boolean validateReservationParameters(Reservation reservation) throws ReservationException {
 
         if (reservation == null) return false;
 

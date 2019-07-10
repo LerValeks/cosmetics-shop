@@ -21,7 +21,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     @Override
     public Employee add(Employee employee) throws EmployeeException {
 
-        if (!EmployeeValidator.validateClientParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
         return employeeDAO.add(employee);
@@ -29,7 +29,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
     @Override
     public Employee update(Employee employee) throws EmployeeException {
-        if (!EmployeeValidator.validateClientParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
         return employeeDAO.update(employee);
@@ -38,7 +38,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     @Override
     public Employee delete(Employee employee) throws EmployeeException {
 
-        if (!EmployeeValidator.validateClientParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
         return employeeDAO.delete(employee);
@@ -47,7 +47,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     @Override
     public List<Employee> serviceCategoryEmployees(ServiceCategory serviceCategory, Employee employee) throws EmployeeException {
 
-        if (!EmployeeValidator.validateClientParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
         return null;
@@ -56,7 +56,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     @Override
     public List<Employee> freeEmployees(ServiceCategory serviceCategory, Employee employee, Reservation reservation) throws EmployeeException {
 
-        if (!EmployeeValidator.validateClientParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee data is invalid");
         }
         return null;

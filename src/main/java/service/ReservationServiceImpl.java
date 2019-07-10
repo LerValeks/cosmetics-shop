@@ -30,7 +30,7 @@ public class ReservationServiceImpl {
             throw new ReservationException("Reservation parameters have been incorrectly initialized!");
         }
 
-        if (!EmployeeValidator.validateIfCurrentEmployee(reservation)) {
+        if (!EmployeeValidator.validateIfCurrentEmployee(reservation.getEmployee())) {
             throw new EmployeeException("Employee not found!");
         }
 
