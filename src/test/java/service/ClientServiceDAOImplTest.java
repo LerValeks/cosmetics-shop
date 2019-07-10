@@ -25,8 +25,10 @@ public class ClientServiceDAOImplTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
     @InjectMocks
     private ClientServiceDAOImpl clientServiceDAO;
+
     @Mock
     private ClientDAO clientDAO;
 
@@ -37,6 +39,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void addClient_shouldThrowException_whenClientIsNull() throws ClientException {
+
         thrown.expect(ClientException.class);
         thrown.expectMessage("Client is null");
         clientServiceDAO.add(null);
@@ -44,6 +47,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void addClient_shouldThrowException_whenClientAttributesAreNull() throws ClientException {
+
         thrown.expect(ClientException.class);
         thrown.expectMessage("Client attributes are null");
         Client client = new Client("Aleks", "Valuyskov", null);
@@ -56,6 +60,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void addClient_shouldThrowException_whenClientIsDuplicate() throws ClientException {
+
         //given
         Client client = new Client("Aleks", "Valuyskov", "+3459435234");
         Client client2 = new Client("Danyl", "Tkachenko", "+345436");
@@ -64,7 +69,6 @@ public class ClientServiceDAOImplTest {
         Set clients = new HashSet();
         clients.add(client);
         clients.add(client2);
-
 
         //when
         thrown.expect(ClientException.class);
@@ -77,6 +81,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void deleteClient_shouldThrowException_whenClientIsNull() throws ClientException {
+
         thrown.expect(ClientException.class);
         thrown.expectMessage("Client is null");
         clientServiceDAO.delete(null);
@@ -84,6 +89,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void updateClient_shouldThrowException_whenClientIsNull() throws ClientException {
+
         thrown.expect(ClientException.class);
         thrown.expectMessage("Client is null");
         clientServiceDAO.update(null);
@@ -91,17 +97,21 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void updateClient_shouldThrowException_whenClientAttributesAreNull() throws ClientException {
+
         thrown.expect(ClientException.class);
         thrown.expectMessage("Client attributes are null");
+
         Client client = new Client("Aleks", "Valuyskov", null);
         clientServiceDAO.update(client);
         thrown.expect(ClientException.class);
         thrown.expectMessage("Client attributes are null");
+
         Client client2 = new Client(null, null, null);
         clientServiceDAO.update(client2);
     }
 
     public void updateClient_shouldThrowException_whenClientIsDuplicate() throws ClientException {
+
         //given
         Client client = new Client("Aleks", "Valuyskov", "+3459435234");
         Client client2 = new Client("Danyl", "Tkachenko", "+345436");
@@ -110,7 +120,6 @@ public class ClientServiceDAOImplTest {
         Set clients = new HashSet();
         clients.add(client);
         clients.add(client2);
-
 
         //when
         thrown.expect(ClientException.class);
@@ -122,6 +131,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void addClient_whenClientIsCorrect_shouldAddClient() throws ClientException {
+
         //given
         Client client = new Client("Aleks", "Valuyskov", "+3459435234");
 
@@ -134,6 +144,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void updateClient_whenClientIsCorrect_shouldReturnClient() throws ClientException {
+
         //given
         Client client = new Client("Aleks", "Valuyskov", "+3459435234");
         Mockito.when(clientDAO.update(any(Client.class))).thenReturn(client);
@@ -148,6 +159,7 @@ public class ClientServiceDAOImplTest {
 
     @Test
     public void deleteClient_whenClientIsCorrect_shouldReturnClient() throws ClientException {
+
         //given
         Client client = new Client("Aleks", "Valuyskov", "+3459435234");
         Mockito.when(clientDAO.delete(any(Client.class))).thenReturn(client);

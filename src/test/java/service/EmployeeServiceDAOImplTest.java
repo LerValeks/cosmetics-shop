@@ -17,11 +17,12 @@ import static org.mockito.ArgumentMatchers.any;
 
 public class EmployeeServiceDAOImplTest {
 
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
     @InjectMocks
     private EmployeeServiceDAOImpl employeeServiceDAO;
+
     @Mock
     private EmployeeDAO employeeDAO;
 
@@ -32,6 +33,7 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void addEmployee_shouldThrowException_whenEmployeeIsNull() throws EmployeeException {
+
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Employee is null");
         employeeServiceDAO.add(null);
@@ -39,12 +41,15 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void addEmployee_shouldThrowException_whenEmployeeAttributesAreNull() throws EmployeeException {
+
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Client attributes are null");
+
         Employee employee = new Employee("Aleks", "Valuyskov", null, ServiceCategory.HAIRCUT);
         employeeServiceDAO.add(employee);
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Client attributes are null");
+
         Employee employee2 = new Employee(null, null, null, null);
         employeeServiceDAO.add(employee2);
     }
@@ -52,6 +57,7 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void deleteEmployee_shouldThrowException_whenEmployeeIsNull() throws EmployeeException {
+
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Employee is null");
         employeeServiceDAO.delete(null);
@@ -59,6 +65,7 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void updateEmployee_shouldThrowException_whenClientIsNull() throws EmployeeException {
+
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Employee is null");
         employeeServiceDAO.update(null);
@@ -66,18 +73,22 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void updateClient_shouldThrowException_whenClientAttributesAreNull() throws EmployeeException {
+
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Client attributes are null");
+
         Employee employee = new Employee("Aleks", "Valuyskov", null, ServiceCategory.HAIRCUT);
         employeeServiceDAO.update(employee);
         thrown.expect(EmployeeException.class);
         thrown.expectMessage("Client attributes are null");
+
         Employee employee2 = new Employee(null, null, null, ServiceCategory.HAIRCUT);
         employeeServiceDAO.update(employee2);
     }
 
     @Test
     public void addClient_whenEmployeeIsCorrect_shouldAddEmployee() throws EmployeeException {
+
         //given
         Employee employee = new Employee("Aleks", "Valuyskov", "+3459435234", ServiceCategory.HAIRCUT);
 
@@ -90,6 +101,7 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void updateClient_whenClientIsCorrect_shouldReturnClient() throws EmployeeException {
+
         //given
         Employee employee = new Employee("Aleks", "Valuyskov", "+3459435234", ServiceCategory.HAIRCUT);
         Mockito.when(employeeDAO.update(any(Employee.class))).thenReturn(employee);
@@ -104,6 +116,7 @@ public class EmployeeServiceDAOImplTest {
 
     @Test
     public void deleteClient_whenClientIsCorrect_shouldReturnClient() throws EmployeeException {
+
         //given
         Employee employee = new Employee("Aleks", "Valuyskov", "+3459435234", ServiceCategory.HAIRCUT);
         Mockito.when(employeeDAO.delete(any(Employee.class))).thenReturn(employee);
