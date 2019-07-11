@@ -4,13 +4,11 @@ import models.Reservation;
 import repository.EmployeeDAO;
 import service.exceptions.ReservationException;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ReservationValidator {
 
     private static EmployeeDAO employeeDAO;
-
-    //TODO: Dan to add validation of employee specialization vs. reservation service requried!
 
     public static boolean validateReservationParameters(Reservation reservation) throws ReservationException {
 
@@ -20,7 +18,8 @@ public class ReservationValidator {
                 && validateEmployeeIsNotNull(reservation)
                 && validateClientIsNotNull(reservation)
                 && validateReservationTimeIsNotNull(reservation)
-                && validateReservationIsTimeNotInPast(reservation);
+                && validateReservationIsTimeNotInPast(reservation)
+                && validateReservationServiceMatchesEmployeeSpecialization(reservation);
     }
 
     public static boolean validateReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
@@ -31,6 +30,7 @@ public class ReservationValidator {
                 .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 
+    //TODO: Check where used
     public static boolean validateReservationIsAvailable(Reservation reservation) throws ReservationException {
 
         return employeeDAO.getItem(reservation.getEmployee().getId())
@@ -38,7 +38,7 @@ public class ReservationValidator {
     }
 
     public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
-        return !reservation.getReservationTime().isBefore(LocalDateTime.now());
+        return !reservation.getReservationTime().isBefore(LocalDate.now());
     }
 
     private static boolean validateServiceCategoryIsNotNull(Reservation reservation) {
@@ -59,5 +59,10 @@ public class ReservationValidator {
     private static boolean validateReservationTimeIsNotNull(Reservation reservation) {
 
         return reservation.getReservationTime() != null;
+    }
+
+    private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) throws ReservationException {
+
+        return reservation.getEmployee().getServiceCategory().equals(reservation.getServiceCategory());
     }
 }

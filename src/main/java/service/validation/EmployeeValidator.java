@@ -20,14 +20,15 @@ public class EmployeeValidator {
         return validateEmployeeNameIsNotNull(employee)
                 && validateEmployeeSurnameIsNotNull(employee)
                 && validateEmployeePhoneIsNotNull(employee)
-                && validateEmployeeserviceCategoryIsNotNull(employee);
+                && validateEmployeeServiceCategoryIsNotNull(employee);
     }
 
     public static boolean validateIfCurrentEmployee(Employee employee) throws EmployeeException {
 
         return employeeDAO.getAllItems().stream()
-                .filter(employee1 -> employee1.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
-                .collect(Collectors.toSet()).contains(employee);
+                .filter(employee1 -> employee1.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
+                .collect(Collectors.toSet())
+                .contains(employee);
     }
 
     private static boolean validateEmployeeNameIsNotNull(Employee employee) {
@@ -45,7 +46,7 @@ public class EmployeeValidator {
         return employee.getPhoneNumber() != null;
     }
 
-    private static boolean validateEmployeeserviceCategoryIsNotNull(Employee employee) {
+    private static boolean validateEmployeeServiceCategoryIsNotNull(Employee employee) {
 
         return employee.getServiceCategory() != null;
     }

@@ -50,7 +50,7 @@ public class ReservationServiceImpl {
         return reservation.getEmployee().getReservations().add(reservation);
     }
 
-    //TODO: Robert to advsie why Set cannot be used in flatMap?
+    //TODO: Robert to advise why Set cannot be used in flatMap?
     public List<Reservation> displayReservation(String phoneNumber) {
 
         return employeeDAO.getAllItems().stream()

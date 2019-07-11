@@ -32,7 +32,7 @@ public class ClientValidator {
     public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
 
         return employeeDAO.getAllItems().stream()
-                .filter(employee -> employee.getEmploymentStatus() == EmploymentStatus.EMPLOYED)
+                .filter(employee -> employee.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
                 .map(Employee::getReservations)
                 .flatMap(Collection::stream)
                 .filter(reservation1 -> reservation1.getClient().equals(reservation.getClient()))

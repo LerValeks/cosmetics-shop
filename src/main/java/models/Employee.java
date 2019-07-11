@@ -1,6 +1,5 @@
 package models;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,8 @@ import static models.EmploymentStatus.EMPLOYED;
 
 @Setter
 @Getter
-@EqualsAndHashCode
+//@EqualsAndHashCode
+//TODO: add employee ID for easier search.
 public class Employee extends User {
 
     private List<Reservation> reservations;
