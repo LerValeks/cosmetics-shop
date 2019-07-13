@@ -19,9 +19,5 @@ public interface EmployeeServiceDAO {
 
     List<Employee> showListOfEmployeesByServiceCategory(ServiceCategory serviceCategory);
 
-    List<Employee> showListOfEmployeesByServiceCategoryAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Employee employee, Reservation reservation);
-
-    List<Reservation> reservationByEmployeeInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate) throws EmployeeException;
-
-    List<Reservation> reservationByEmployeeByServiceCategoryInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate, ServiceCategory serviceCategory) throws EmployeeException;
-}
+    List<Employee> showListOfEmployeesByServiceCategoryFreeAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Reservation reservation);
+   }

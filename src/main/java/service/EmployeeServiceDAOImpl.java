@@ -7,7 +7,9 @@ import repository.EmployeeDAO;
 import service.exceptions.EmployeeException;
 import service.validation.EmployeeValidator;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,7 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
     }
 
     @Override
-    public Employee add(Employee employee)  throws EmployeeException {
+    public Employee add(Employee employee) throws EmployeeException {
 
         EmployeeValidator.validateEmployeeParameters(employee);
         return employeeDAO.add(employee);
@@ -39,24 +41,28 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
         EmployeeValidator.validateEmployeeParameters(employee);
         return employeeDAO.delete(employee);
     }
+
     @Override
     public List<Employee> showListOfEmployeesByServiceCategory(ServiceCategory serviceCategory) {
         return employeeDAO.getAllItems().stream()
-                .filter(employee-> employee.getServiceCategory().equals(serviceCategory))
+                .filter(employee -> employee.getServiceCategory().equals(serviceCategory))
                 .collect(Collectors.toList());
     }
-    @Override
-    public List<Employee> showListOfEmployeesByServiceCategoryAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Employee employee, Reservation reservation){
-        return null;
-    }
 
     @Override
-    public List<Reservation> reservationByEmployeeInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate) throws EmployeeException {
-        return null;
-    }
+    public List<Employee> showListOfEmployeesByServiceCategoryFreeAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Reservation reservation) {
 
-    @Override
-    public List<Reservation> reservationByEmployeeByServiceCategoryInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate, ServiceCategory serviceCategory) throws EmployeeException {
-        return null;
+    List<Employee> EmployeesBusy = employeeDAO.getAllItems().stream()
+                .filter(employee -> employee.getServiceCategory().equals(serviceCategory))
+                .map(employee -> employee.getReservations())
+                .flatMap(List::stream)
+                .filter(reservation1 -> reservation1.getReservationTime().compareTo(reservation.getReservationTime()) == 0)
+                .collect(Collectors.mapping(Reservation::getEmployee, Collectors.toList()));
+
+    List<Employee> allEmployeesOfThisCategory = showListOfEmployeesByServiceCategory(serviceCategory);
+
+    List<Employee> freeEmployee = new ArrayList<>(allEmployeesOfThisCategory);
+    freeEmployee.removeAll(EmployeesBusy);
+    return freeEmployee;
     }
 }

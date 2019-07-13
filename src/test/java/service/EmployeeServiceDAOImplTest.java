@@ -132,19 +132,5 @@ public class EmployeeServiceDAOImplTest {
         Mockito.verify(employeeDAO, Mockito.times(1)).delete(any(Employee.class));
     }
 
-    @Test
-    public void serviceCategoryEmployees() {
-    }
 
-    @Test
-    public void freeEmployees() {
-    }
-
-    @Test
-    public void reservationByEmployeeInSpecificPeriod() {
-    }
-
-    @Test
-    public void reservationByEmployeeByServiceCategoryInSpecificPeriod() {
-    }
 }

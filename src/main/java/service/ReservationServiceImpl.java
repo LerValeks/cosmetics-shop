@@ -70,7 +70,7 @@ public class ReservationServiceImpl {
                 .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
                 .filter(reservation -> reservation.getReservationTime().compareTo(startDate)==0 || reservation.getReservationTime().compareTo(startDate)>0)
                 .filter(reservation -> reservation.getReservationTime().compareTo(endDate)==0 || reservation.getReservationTime().compareTo(endDate)<0)
-                .collect(Collectors.toList());
+                    .collect(Collectors.toList());
     }
     public boolean cancelReservation(Reservation reservation) throws ReservationException {
 
