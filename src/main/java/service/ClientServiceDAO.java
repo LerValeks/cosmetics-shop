@@ -15,8 +15,4 @@ public interface ClientServiceDAO {
     Client update(Client client) throws ClientException;
 
     Client delete(Client client) throws ClientException;
-
-    List<Reservation> reservationByClient(Client client) throws ClientException;
-
-    List<Reservation> reservationByClientInSpecificPeriod(Client client, LocalDateTime startDate, LocalDateTime endDate) throws ClientException;
 }

@@ -9,6 +9,7 @@ import service.validation.EmployeeValidator;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
@@ -38,18 +39,14 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
         EmployeeValidator.validateEmployeeParameters(employee);
         return employeeDAO.delete(employee);
     }
-
     @Override
-    public List<Employee> serviceCategoryEmployees(ServiceCategory serviceCategory, Employee employee) throws EmployeeException {
-
-        EmployeeValidator.validateEmployeeParameters(employee);
-        return null;
+    public List<Employee> showListOfEmployeesByServiceCategory(ServiceCategory serviceCategory) {
+        return employeeDAO.getAllItems().stream()
+                .filter(employee-> employee.getServiceCategory().equals(serviceCategory))
+                .collect(Collectors.toList());
     }
-
     @Override
-    public List<Employee> freeEmployees(ServiceCategory serviceCategory, Employee employee, Reservation reservation) throws EmployeeException {
-
-        EmployeeValidator.validateEmployeeParameters(employee);
+    public List<Employee> showListOfEmployeesByServiceCategoryAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Employee employee, Reservation reservation){
         return null;
     }
 

@@ -17,9 +17,9 @@ public interface EmployeeServiceDAO {
 
     Employee delete(Employee employee) throws EmployeeException;
 
-    List<Employee> serviceCategoryEmployees(ServiceCategory serviceCategory, Employee employee) throws EmployeeException;
+    List<Employee> showListOfEmployeesByServiceCategory(ServiceCategory serviceCategory);
 
-    List<Employee> freeEmployees(ServiceCategory serviceCategory, Employee employee, Reservation reservation) throws EmployeeException;
+    List<Employee> showListOfEmployeesByServiceCategoryAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Employee employee, Reservation reservation);
 
     List<Reservation> reservationByEmployeeInSpecificPeriod(Employee employee, LocalDateTime startDate, LocalDateTime endDate) throws EmployeeException;
 

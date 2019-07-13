@@ -32,23 +32,9 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
     }
 
     @Override
-    public List<Reservation> reservationByClient(Client client) throws ClientException {
-
-        ClientValidator.validateClientIsNotNull(client);
-        return null;
-    }
-
-    @Override
     public Client delete(Client client) throws ClientException {
 
         ClientValidator.validateClientParameters(client);
         return clientDAO.delete(client);
-    }
-
-    @Override
-    public List<Reservation> reservationByClientInSpecificPeriod(Client client, LocalDateTime startDate, LocalDateTime endDate) throws ClientException {
-
-        ClientValidator.validateClientIsNotNull(client);
-        return null;
     }
 }

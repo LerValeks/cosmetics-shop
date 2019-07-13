@@ -1,5 +1,6 @@
 package service;
 
+import models.Client;
 import models.Reservation;
 import repository.ClientDAO;
 import repository.EmployeeDAO;
@@ -10,6 +11,8 @@ import service.validation.ClientValidator;
 import service.validation.EmployeeValidator;
 import service.validation.ReservationValidator;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +63,15 @@ public class ReservationServiceImpl {
                 .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
                 .collect(Collectors.toList());
     }
-
+    public List<Reservation> reservationByClientInSpecificPeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
+        return employeeDAO.getAllItems().stream()
+                .map(employee -> employee.getReservations())
+                .flatMap(List::stream)
+                .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
+                .filter(reservation -> reservation.getReservationTime().compareTo(startDate)==0 || reservation.getReservationTime().compareTo(startDate)>0)
+                .filter(reservation -> reservation.getReservationTime().compareTo(endDate)==0 || reservation.getReservationTime().compareTo(endDate)<0)
+                .collect(Collectors.toList());
+    }
     public boolean cancelReservation(Reservation reservation) throws ReservationException {
 
         if (ReservationValidator.validateReservationIsTimeNotInPast(reservation)) {
