@@ -9,6 +9,7 @@ import repository.EmployeeDAO;
 import service.exceptions.ClientException;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ClientValidator {
 
@@ -17,16 +18,37 @@ public class ClientValidator {
 
     public static boolean validateClientParameters(Client client) throws ClientException {
 
-        if (client == null) return false;
+        validateClientIsNotNull(client);
+        validateClientNameIsNotNull(client);
+        validateClientSurnameIsNotNull(client);
+        validateClientPhoneIsNotNull(client);
+        return true;
+    }
 
-        return validateClientNameIsNotNull(client)
-                && validateClientSurnameIsNotNull(client)
-                && validateClientPhoneIsNotNull(client);
+    public static boolean validateClientIsNotNull(Client client) throws ClientException {
+        if (client == null) {
+            throw new ClientException("Client is null");
+        }
+        return true;
+    }
+
+    private static boolean validateClientNameIsNotNull(Client client) throws ClientException {
+        if (client.getName() == null) {
+            throw new ClientException("Client attribute is null");
+        }
+        return true;
     }
 
     public static boolean validateIfCurrentClient(Client client) throws ClientException {
 
         return clientDAO.getAllItems().contains(client);
+    }
+
+    private static boolean validateClientSurnameIsNotNull(Client client) throws ClientException {
+        if (client.getSurname() == null) {
+            throw new ClientException("Client attribute is null");
+        }
+        return true;
     }
 
     public static boolean validateClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
@@ -40,18 +62,10 @@ public class ClientValidator {
                 .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 
-    private static boolean validateClientNameIsNotNull(Client client) {
-
-        return client.getName() != null;
-    }
-
-    private static boolean validateClientSurnameIsNotNull(Client client) {
-
-        return client.getSurname() != null;
-    }
-
-    private static boolean validateClientPhoneIsNotNull(Client client) {
-
-        return client.getPhoneNumber() != null;
+    private static boolean validateClientPhoneIsNotNull(Client client) throws ClientException {
+        if (client.getPhoneNumber() == null) {
+            throw new ClientException("Client attribute is null");
+        }
+        return true;
     }
 }

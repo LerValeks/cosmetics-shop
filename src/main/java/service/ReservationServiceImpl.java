@@ -24,7 +24,7 @@ public class ReservationServiceImpl {
         this.clientDAO = clientDAO;
     }
 
-    public boolean makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
+    public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
         if (!ReservationValidator.validateReservationParameters(reservation)) {
             throw new ReservationException("Reservation parameters have been incorrectly initialized!");
@@ -47,7 +47,8 @@ public class ReservationServiceImpl {
         } else if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
             throw new ClientException("You have reservation at the requested time");
         }
-        return reservation.getEmployee().getReservations().add(reservation);
+        reservation.getEmployee().getReservations().add(reservation);
+        return reservation;
     }
 
     //TODO: Robert to advise why Set cannot be used in flatMap?
