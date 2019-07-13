@@ -41,13 +41,7 @@ public class ReservationServiceImpl {
             throw new ClientException("Client parameters have been incorrectly initialized!");
         }
 
-        if (!ClientValidator.validateIfCurrentClient(reservation.getClient())) {
-            clientDAO.add(reservation.getClient());
-        } else {
-            if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
-                throw new ClientException("TBC");
-            }
-        }
+
         return reservation;
     }
 
