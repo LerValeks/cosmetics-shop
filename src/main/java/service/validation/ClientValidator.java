@@ -9,7 +9,6 @@ import repository.EmployeeDAO;
 import service.exceptions.ClientException;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class ClientValidator {
 

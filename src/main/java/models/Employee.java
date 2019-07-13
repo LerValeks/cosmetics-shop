@@ -10,7 +10,6 @@ import static models.EmploymentStatus.EMPLOYED;
 
 @Setter
 @Getter
-//@EqualsAndHashCode
 //TODO: add employee ID for easier search.
 public class Employee extends User {
 

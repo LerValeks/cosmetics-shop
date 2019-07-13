@@ -19,18 +19,21 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public Client add(Client client) throws ClientException {
+
         ClientValidator.validateClientParameters(client);
         return clientDAO.add(client);
     }
 
     @Override
     public Client update(Client client) throws ClientException {
+
         ClientValidator.validateClientParameters(client);
-        return clientDAO.add(client);
+        return clientDAO.update(client);
     }
 
     @Override
     public List<Reservation> reservationByClient(Client client) throws ClientException {
+
         ClientValidator.validateClientIsNotNull(client);
         return null;
     }
@@ -44,6 +47,7 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
 
     @Override
     public List<Reservation> reservationByClientInSpecificPeriod(Client client, LocalDateTime startDate, LocalDateTime endDate) throws ClientException {
+
         ClientValidator.validateClientIsNotNull(client);
         return null;
     }

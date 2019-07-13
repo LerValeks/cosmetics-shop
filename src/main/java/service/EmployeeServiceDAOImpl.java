@@ -20,12 +20,14 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
     @Override
     public Employee add(Employee employee)  throws EmployeeException {
+
         EmployeeValidator.validateEmployeeParameters(employee);
         return employeeDAO.add(employee);
     }
 
     @Override
     public Employee update(Employee employee) throws EmployeeException {
+
         EmployeeValidator.validateEmployeeParameters(employee);
         return employeeDAO.update(employee);
     }

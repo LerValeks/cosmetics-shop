@@ -18,7 +18,7 @@ public class EmployeeValidator {
         validateEmployeeNameIsNotNull(employee);
         validateEmployeeSurnameIsNotNull(employee);
         validateEmployeePhoneIsNotNull(employee);
-        validateEmployeeserviceCategoryIsNotNull(employee);
+        validateEmployeeServiceCategoryIsNotNull(employee);
         return true;
     }
 
@@ -61,7 +61,7 @@ public class EmployeeValidator {
         return true;
     }
 
-    private static boolean validateEmployeeserviceCategoryIsNotNull(Employee employee) throws EmployeeException {
+    private static boolean validateEmployeeServiceCategoryIsNotNull(Employee employee) throws EmployeeException {
         if (employee.getServiceCategory() == null) {
             throw new EmployeeException("Employee attribute is null");
         }

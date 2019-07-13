@@ -45,7 +45,7 @@ public class ReservationServiceImpl {
         if (!ClientValidator.validateIfCurrentClient(reservation.getClient())) {
             clientDAO.add(reservation.getClient());
         } else if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
-            throw new ClientException("You have reservation at the requested time");
+            throw new ClientException("You have another reservation at the same time. Please choose another time");
         }
         reservation.getEmployee().getReservations().add(reservation);
         return reservation;
