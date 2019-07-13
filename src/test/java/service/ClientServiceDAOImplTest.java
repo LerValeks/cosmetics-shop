@@ -1,6 +1,7 @@
 package service;
 
 import models.Client;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,10 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import repository.ClientDAO;
 import service.exceptions.ClientException;
-import service.validation.ClientValidator;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,40 +43,6 @@ public class ClientServiceDAOImplTest {
     }
 
     @Test
-    public void addClient_shouldThrowException_whenClientAttributesAreNull() throws ClientException {
-
-        thrown.expect(ClientException.class);
-        thrown.expectMessage("Client attributes are null");
-        Client client = new Client("Aleks", "Valuyskov", null);
-        clientServiceDAO.add(client);
-        thrown.expect(ClientException.class);
-        thrown.expectMessage("Client attributes are null");
-        Client client2 = new Client(null, null, null);
-        clientServiceDAO.add(client2);
-    }
-
-    @Test
-    public void addClient_shouldThrowException_whenClientIsDuplicate() throws ClientException {
-
-        //given
-        Client client = new Client("Aleks", "Valuyskov", "+3459435234");
-        Client client2 = new Client("Danyl", "Tkachenko", "+345436");
-        Client client3 = new Client("Aleks", "Valuyskov", "+3459435234");
-
-        Set clients = new HashSet();
-        clients.add(client);
-        clients.add(client2);
-
-        //when
-        thrown.expect(ClientException.class);
-        thrown.expectMessage("Such client already exist in Database");
-        Mockito.when(clientDAO.getAllItems()).thenReturn(clients);
-        Mockito.when(ClientValidator.validateIfCurrentClient(client3)).thenReturn(true);
-        Client AddClientToDAO = clientServiceDAO.add(client3);
-
-    }
-
-    @Test
     public void deleteClient_shouldThrowException_whenClientIsNull() throws ClientException {
 
         thrown.expect(ClientException.class);
@@ -96,50 +59,46 @@ public class ClientServiceDAOImplTest {
     }
 
     @Test
-    public void updateClient_shouldThrowException_whenClientAttributesAreNull() throws ClientException {
+    public void addClient_shouldThrowException_whenClientParameterIsNull() throws ClientException {
 
         thrown.expect(ClientException.class);
-        thrown.expectMessage("Client attributes are null");
+        thrown.expectMessage("Client attribute is null");
+        Client client = new Client("Aleks", "Valuyskov", null);
+        clientServiceDAO.add(client);
 
+        thrown.expect(ClientException.class);
+        thrown.expectMessage("Client attribute is null");
+        Client client2 = new Client(null, null, null);
+        clientServiceDAO.add(client2);
+    }
+
+    @Test
+    public void updateClient_shouldThrowException_whenClientParameterIsNull() throws ClientException {
+
+        thrown.expect(ClientException.class);
+        thrown.expectMessage("Client attribute is null");
         Client client = new Client("Aleks", "Valuyskov", null);
         clientServiceDAO.update(client);
-        thrown.expect(ClientException.class);
-        thrown.expectMessage("Client attributes are null");
 
+        thrown.expect(ClientException.class);
+        thrown.expectMessage("Client attribute is null");
         Client client2 = new Client(null, null, null);
         clientServiceDAO.update(client2);
     }
 
-    public void updateClient_shouldThrowException_whenClientIsDuplicate() throws ClientException {
-
-        //given
-        Client client = new Client("Aleks", "Valuyskov", "+3459435234");
-        Client client2 = new Client("Danyl", "Tkachenko", "+345436");
-        Client client3 = new Client("Aleks", "Valuyskov", "+3459435234");
-
-        Set clients = new HashSet();
-        clients.add(client);
-        clients.add(client2);
-
-        //when
-        thrown.expect(ClientException.class);
-        thrown.expectMessage("Such client already exist in Database");
-        Mockito.when(clientDAO.getAllItems()).thenReturn(clients);
-        Mockito.when(ClientValidator.validateIfCurrentClient(client3)).thenReturn(true);
-        Client UpdateClientIbDAO = clientServiceDAO.update(client3);
-    }
-
     @Test
-    public void addClient_whenClientIsCorrect_shouldAddClient() throws ClientException {
+    public void addClient_whenClientIsCorrect_shouldReturnClient() throws ClientException {
 
         //given
         Client client = new Client("Aleks", "Valuyskov", "+3459435234");
+        Mockito.when(clientDAO.add(any(Client.class))).thenReturn(client);
 
         // when
-        clientServiceDAO.add(client);
+        Client clientTest = clientServiceDAO.add(client);
 
         //then
         Mockito.verify(clientDAO, Mockito.times(1)).add(client);
+        Assert.assertNotNull(clientTest);
     }
 
     @Test
@@ -150,10 +109,10 @@ public class ClientServiceDAOImplTest {
         Mockito.when(clientDAO.update(any(Client.class))).thenReturn(client);
 
         // when
-        Client client2 = clientServiceDAO.update(client);
+        Client clientTest = clientServiceDAO.update(client);
 
         //then
-        assertNotNull(client2);
+        Assert.assertNotNull(clientTest);
         Mockito.verify(clientDAO, Mockito.times(1)).update(any(Client.class));
     }
 
@@ -165,10 +124,10 @@ public class ClientServiceDAOImplTest {
         Mockito.when(clientDAO.delete(any(Client.class))).thenReturn(client);
 
         // when
-        Client client2 = clientServiceDAO.delete(client);
+        Client clientTest = clientServiceDAO.delete(client);
 
         //then
-        assertNotNull(client2);
+        assertNotNull(clientTest);
         Mockito.verify(clientDAO, Mockito.times(1)).delete(any(Client.class));
     }
 

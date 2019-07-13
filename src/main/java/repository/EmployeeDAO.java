@@ -8,17 +8,17 @@ public class EmployeeDAO implements DAOItem<Employee> {
 
     @Override
     public Employee add(Employee domain) {
-        return null;
+        return domain;
     }
 
     @Override
     public Employee delete(Employee domain) {
-        return null;
+        return domain;
     }
 
     @Override
     public Employee update(Employee domain) {
-        return null;
+        return domain;
     }
 
     @Override

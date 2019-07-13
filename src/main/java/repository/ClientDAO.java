@@ -8,17 +8,17 @@ public class ClientDAO implements DAOItem<Client> {
 
     @Override
     public Client add(Client domain) {
-        return null;
+        return domain;
     }
 
     @Override
     public Client delete(Client domain) {
-        return null;
+        return domain;
     }
 
     @Override
     public Client update(Client domain) {
-        return null;
+        return domain;
     }
 
     @Override
