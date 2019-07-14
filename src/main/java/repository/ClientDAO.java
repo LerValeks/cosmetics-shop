@@ -22,7 +22,7 @@ public class ClientDAO implements DAOItem<Client> {
     }
 
     @Override
-    public Client getItem(Long id) {
+    public Client getItem(String phoneNumber) {
         return null;
     }
 

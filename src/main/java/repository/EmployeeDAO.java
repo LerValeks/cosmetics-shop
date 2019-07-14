@@ -22,7 +22,7 @@ public class EmployeeDAO implements DAOItem<Employee> {
     }
 
     @Override
-    public Employee getItem(Long id) {
+    public Employee getItem(String phoneNumber) {
         return null;
     }
 

@@ -10,7 +10,7 @@ public interface DAOItem<T> {
 
     T update(T domain);
 
-    T getItem(Long id);
+    T getItem(String phoneNumber);
 
     Set<T> getAllItems();
 }
