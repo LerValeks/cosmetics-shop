@@ -1,19 +1,28 @@
 package models;
 
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 
 public class Reservation {
 
     ServiceCategory serviceCategory;
     Employee employee;
     Client client;
-    LocalDate reservationTime;
+    LocalDateTime reservationTime;
+    ReservationStatus reservationStatus;
+
+    public Reservation(ServiceCategory serviceCategory, Employee employee, Client client, LocalDateTime reservationTime) {
+        this.serviceCategory = serviceCategory;
+        this.employee = employee;
+        this.client = client;
+        this.reservationTime = reservationTime;
+        this.reservationStatus = ReservationStatus.PENDING;
+    }
 }

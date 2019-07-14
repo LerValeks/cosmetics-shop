@@ -2,7 +2,7 @@ package models;
 
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 
 public class Client extends User {
 

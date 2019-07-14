@@ -1,5 +1,6 @@
 package models;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import static models.EmploymentStatus.EMPLOYED;
 
 @Setter
 @Getter
+@EqualsAndHashCode(callSuper = true)
 
 public class Employee extends User {
 
