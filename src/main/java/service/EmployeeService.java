@@ -7,7 +7,7 @@ import service.exceptions.EmployeeException;
 
 import java.util.List;
 
-public interface EmployeeServiceDAO {
+public interface EmployeeService {
 
     Employee add(Employee employee) throws EmployeeException;
 

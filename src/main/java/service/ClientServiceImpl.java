@@ -5,11 +5,11 @@ import repository.ClientDAO;
 import service.exceptions.ClientException;
 import service.validation.ClientValidator;
 
-public class ClientServiceDAOImpl implements ClientServiceDAO {
+public class ClientServiceImpl implements ClientService {
 
     private final ClientDAO clientDAO;
 
-    public ClientServiceDAOImpl(ClientDAO clientDAO) {
+    public ClientServiceImpl(ClientDAO clientDAO) {
         this.clientDAO = clientDAO;
     }
 

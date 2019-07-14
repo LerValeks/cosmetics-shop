@@ -3,7 +3,7 @@ package service;
 import models.Client;
 import service.exceptions.ClientException;
 
-public interface ClientServiceDAO {
+public interface ClientService {
 
     Client add(Client client) throws ClientException;
 

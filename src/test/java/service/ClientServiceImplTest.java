@@ -18,20 +18,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClientServiceDAOImplTest {
+public class ClientServiceImplTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @InjectMocks
-    private ClientServiceDAOImpl clientServiceDAO;
+    private ClientServiceImpl clientServiceDAO;
 
     @Mock
     private ClientDAO clientDAO;
 
     @Before
     public void setup() {
-        this.clientServiceDAO = new ClientServiceDAOImpl(clientDAO);
+        this.clientServiceDAO = new ClientServiceImpl(clientDAO);
     }
 
     @Test
