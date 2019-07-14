@@ -1,11 +1,18 @@
 package service.validation;
 
 import models.Reservation;
+import repository.EmployeeDAO;
 import service.exceptions.ReservationException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ReservationValidator {
+
+    private final EmployeeDAO employeeDAO;
+
+    public ReservationValidator(EmployeeDAO employeeDAO) {
+        this.employeeDAO = employeeDAO;
+    }
 
     public static boolean validateReservationParameters(Reservation reservation) throws ReservationException {
 
@@ -45,11 +52,19 @@ public class ReservationValidator {
 
     public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
 
-        return !reservation.getReservationTime().isBefore(LocalDate.now());
+        return !reservation.getReservationTime().isBefore(LocalDateTime.now());
     }
 
     private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) throws ReservationException {
 
         return reservation.getEmployee().getServiceCategory().equals(reservation.getServiceCategory());
+    }
+
+    public boolean validateIfReservationTimeIsFree(Reservation reservation) throws ReservationException {
+
+        return employeeDAO.getItem(reservation.getEmployee().getPhoneNumber())
+                .getReservations().stream()
+                .map(Reservation::getReservationTime)
+                .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
     }
 }

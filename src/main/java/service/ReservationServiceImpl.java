@@ -8,10 +8,10 @@ import service.exceptions.ClientException;
 import service.exceptions.EmployeeException;
 import service.exceptions.ReservationException;
 import service.validation.ClientValidator;
-import service.validation.DAOValidator;
+import service.validation.EmployeeValidator;
 import service.validation.ReservationValidator;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,13 +19,16 @@ public class ReservationServiceImpl {
 
     private final EmployeeDAO employeeDAO;
     private final ClientDAO clientDAO;
-    private final DAOValidator daoValidator;
+    private EmployeeValidator employeeValidator;
+    private ClientValidator clientValidator;
+    private ReservationValidator reservationValidator;
 
-    public ReservationServiceImpl(EmployeeDAO employeeDAO, ClientDAO clientDAO, DAOValidator daoValidator) {
-
+    public ReservationServiceImpl(EmployeeDAO employeeDAO, ClientDAO clientDAO, EmployeeValidator employeeValidator, ClientValidator clientValidator, ReservationValidator reservationValidator) {
         this.employeeDAO = employeeDAO;
         this.clientDAO = clientDAO;
-        this.daoValidator = daoValidator;
+        this.employeeValidator = employeeValidator;
+        this.clientValidator = clientValidator;
+        this.reservationValidator = reservationValidator;
     }
 
     public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
@@ -34,11 +37,11 @@ public class ReservationServiceImpl {
             throw new ReservationException("Reservation object is null or reservation parameters are incorrectly initialized");
         }
 
-        if (!daoValidator.validateIfCurrentEmployeeIsEmployed(reservation.getEmployee())) {
+        if (!employeeValidator.validateIfCurrentEmployeeIsEmployed(reservation.getEmployee())) {
             throw new EmployeeException("Employee not found!");
         }
 
-        if (daoValidator.validateIfReservationTimeIsFree(reservation)) {
+        if (reservationValidator.validateIfReservationTimeIsFree(reservation)) {
             throw new ReservationException("This time is already booked. Please try another time");
         }
 
@@ -46,9 +49,9 @@ public class ReservationServiceImpl {
             throw new ClientException("Client object is null or client parameters are incorrectly initialized");
         }
 
-        if (!daoValidator.validateIfExistingClient(reservation.getClient())) {
+        if (!clientValidator.validateIfExistingClient(reservation.getClient())) {
             clientDAO.add(reservation.getClient());
-        } else if (daoValidator.validateIfExistingClientHasReservationAtTheSameTime(reservation)) {
+        } else if (clientValidator.validateIfExistingClientHasReservationAtTheSameTime(reservation)) {
             throw new ClientException("Client has reservation at requested time, please choose another reservation time");
         }
         reservation.getEmployee().getReservations().add(reservation);
@@ -73,7 +76,7 @@ public class ReservationServiceImpl {
         return employeeDAO.getItem(reservation.getEmployee().getPhoneNumber()).getReservations().remove(reservation);
     }
 
-    public List<Reservation> reservationByClientInSpecificPeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
+    public List<Reservation> reservationByClientInSpecificPeriod(String phoneNumber, LocalDateTime startDate, LocalDateTime endDate) throws ClientException {
 
         return employeeDAO.getAllItems().stream()
                 .map(Employee::getReservations)
