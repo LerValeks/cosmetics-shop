@@ -1,13 +1,9 @@
 package service;
 
 import models.Client;
-import models.Reservation;
 import repository.ClientDAO;
 import service.exceptions.ClientException;
 import service.validation.ClientValidator;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ClientServiceDAOImpl implements ClientServiceDAO {
 
@@ -20,21 +16,27 @@ public class ClientServiceDAOImpl implements ClientServiceDAO {
     @Override
     public Client add(Client client) throws ClientException {
 
-        ClientValidator.validateClientParameters(client);
+        if (ClientValidator.validateClientParameters(client)) {
+            throw new ClientException("Client object is null or client parameters are incorrectly initialized");
+        }
         return clientDAO.add(client);
     }
 
     @Override
     public Client update(Client client) throws ClientException {
 
-        ClientValidator.validateClientParameters(client);
+        if (ClientValidator.validateClientParameters(client)) {
+            throw new ClientException("Client object is null or client parameters are incorrectly initialized");
+        }
         return clientDAO.update(client);
     }
 
     @Override
     public Client delete(Client client) throws ClientException {
 
-        ClientValidator.validateClientParameters(client);
+        if (ClientValidator.validateClientParameters(client)) {
+            throw new ClientException("Client object is null or client parameters are incorrectly initialized");
+        }
         return clientDAO.delete(client);
     }
 }
