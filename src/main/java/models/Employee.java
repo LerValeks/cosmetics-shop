@@ -4,8 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static models.EmploymentStatus.EMPLOYED;
 
@@ -15,14 +15,14 @@ import static models.EmploymentStatus.EMPLOYED;
 
 public class Employee extends User {
 
-    private List<Reservation> reservations;
+    private Set<Reservation> reservations;
     private EmploymentStatus employmentStatus;
     private ServiceCategory serviceCategory;
 
     public Employee(String name, String surname, String phoneNumber, ServiceCategory serviceCategory) {
         super(name, surname, phoneNumber);
         this.serviceCategory = serviceCategory;
-        this.reservations = new ArrayList<>();
+        this.reservations = new HashSet<>();
         this.employmentStatus = EMPLOYED;
     }
 }

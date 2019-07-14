@@ -1,6 +1,7 @@
 package service.validation;
 
 import models.Reservation;
+import models.ReservationStatus;
 import repository.EmployeeDAO;
 import service.exceptions.ReservationException;
 
@@ -58,6 +59,11 @@ public class ReservationValidator {
     private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) throws ReservationException {
 
         return reservation.getEmployee().getServiceCategory().equals(reservation.getServiceCategory());
+    }
+
+    public static boolean validateReservationStatus(Reservation reservation) throws ReservationException {
+
+        return reservation.getReservationStatus().equals(ReservationStatus.PENDING);
     }
 
     public boolean validateIfReservationTimeIsFree(Reservation reservation) throws ReservationException {
