@@ -1,6 +1,6 @@
 package service;
 
-import models.Client;
+import models.Employee;
 import models.Reservation;
 import repository.ClientDAO;
 import repository.EmployeeDAO;
@@ -8,47 +8,48 @@ import service.exceptions.ClientException;
 import service.exceptions.EmployeeException;
 import service.exceptions.ReservationException;
 import service.validation.ClientValidator;
-import service.validation.EmployeeValidator;
+import service.validation.DAOValidator;
 import service.validation.ReservationValidator;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReservationServiceImpl {
 
-    //TODO: Dan/Robert to discuss if shall be final or static and how static/final may affect?
-    private EmployeeDAO employeeDAO;
-    private ClientDAO clientDAO;
+    private final EmployeeDAO employeeDAO;
+    private final ClientDAO clientDAO;
+    private final DAOValidator daoValidator;
 
-    public ReservationServiceImpl(EmployeeDAO employeeDAO, ClientDAO clientDAO) {
+    public ReservationServiceImpl(EmployeeDAO employeeDAO, ClientDAO clientDAO, DAOValidator daoValidator) {
+
         this.employeeDAO = employeeDAO;
         this.clientDAO = clientDAO;
+        this.daoValidator = daoValidator;
     }
 
     public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
         if (!ReservationValidator.validateReservationParameters(reservation)) {
-            throw new ReservationException("Reservation parameters have been incorrectly initialized!");
+            throw new ReservationException("Reservation object is null or reservation parameters are incorrectly initialized");
         }
 
-        if (!EmployeeValidator.validateIfCurrentEmployeeEmployed(reservation.getEmployee())) {
+        if (!daoValidator.validateIfCurrentEmployeeIsEmployed(reservation.getEmployee())) {
             throw new EmployeeException("Employee not found!");
         }
 
-        if (ReservationValidator.validateReservationTimeIsAvailable(reservation)) {
-            throw new ReservationException("This employee has reservation at proposed time. Please choose another time!");
+        if (daoValidator.validateIfReservationTimeIsFree(reservation)) {
+            throw new ReservationException("This time is already booked. Please try another time");
         }
 
         if (!ClientValidator.validateClientParameters(reservation.getClient())) {
-            throw new ClientException("Client parameters have been incorrectly initialized!");
+            throw new ClientException("Client object is null or client parameters are incorrectly initialized");
         }
 
-        if (!ClientValidator.validateIfCurrentClient(reservation.getClient())) {
+        if (!daoValidator.validateIfExistingClient(reservation.getClient())) {
             clientDAO.add(reservation.getClient());
-        } else if (ClientValidator.validateClientHasReservationAtTheSameTime(reservation)) {
-            throw new ClientException("You have another reservation at the same time. Please choose another time");
+        } else if (daoValidator.validateIfExistingClientHasReservationAtTheSameTime(reservation)) {
+            throw new ClientException("Client has reservation at requested time, please choose another reservation time");
         }
         reservation.getEmployee().getReservations().add(reservation);
         return reservation;
@@ -58,25 +59,28 @@ public class ReservationServiceImpl {
     public List<Reservation> displayReservation(String phoneNumber) {
 
         return employeeDAO.getAllItems().stream()
-                .map(employee -> employee.getReservations())
+                .map(Employee::getReservations)
                 .flatMap(List::stream)
                 .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
                 .collect(Collectors.toList());
     }
-    public List<Reservation> reservationByClientInSpecificPeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
-        return employeeDAO.getAllItems().stream()
-                .map(employee -> employee.getReservations())
-                .flatMap(List::stream)
-                .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
-                .filter(reservation -> reservation.getReservationTime().compareTo(startDate)==0 || reservation.getReservationTime().compareTo(startDate)>0)
-                .filter(reservation -> reservation.getReservationTime().compareTo(endDate)==0 || reservation.getReservationTime().compareTo(endDate)<0)
-                    .collect(Collectors.toList());
-    }
+
     public boolean cancelReservation(Reservation reservation) throws ReservationException {
 
         if (ReservationValidator.validateReservationIsTimeNotInPast(reservation)) {
             throw new ReservationException("Past due reservation cannot be cancelled!");
         }
-        return employeeDAO.getItem(reservation.getEmployee().getId()).getReservations().remove(reservation);
+        return employeeDAO.getItem(reservation.getEmployee().getPhoneNumber()).getReservations().remove(reservation);
+    }
+
+    public List<Reservation> reservationByClientInSpecificPeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
+
+        return employeeDAO.getAllItems().stream()
+                .map(Employee::getReservations)
+                .flatMap(List::stream)
+                .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
+                .filter(reservation -> reservation.getReservationTime().compareTo(startDate) == 0 || reservation.getReservationTime().compareTo(startDate) > 0)
+                .filter(reservation -> reservation.getReservationTime().compareTo(endDate) == 0 || reservation.getReservationTime().compareTo(endDate) < 0)
+                .collect(Collectors.toList());
     }
 }
