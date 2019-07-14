@@ -10,7 +10,7 @@ import static models.EmploymentStatus.EMPLOYED;
 
 @Setter
 @Getter
-//TODO: add employee ID for easier search.
+
 public class Employee extends User {
 
     private List<Reservation> reservations;
