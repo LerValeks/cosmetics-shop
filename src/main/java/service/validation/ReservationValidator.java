@@ -1,20 +1,16 @@
 package service.validation;
 
 import models.Reservation;
-import repository.EmployeeDAO;
 import service.exceptions.ReservationException;
 
 import java.time.LocalDate;
 
 public class ReservationValidator {
 
-    private static EmployeeDAO employeeDAO;
-
     public static boolean validateReservationParameters(Reservation reservation) throws ReservationException {
 
-        if (reservation == null) return false;
-
-        return validateServiceCategoryIsNotNull(reservation)
+        return validateReservationIsNotNull(reservation)
+                && validateServiceCategoryIsNotNull(reservation)
                 && validateEmployeeIsNotNull(reservation)
                 && validateClientIsNotNull(reservation)
                 && validateReservationTimeIsNotNull(reservation)
@@ -22,23 +18,9 @@ public class ReservationValidator {
                 && validateReservationServiceMatchesEmployeeSpecialization(reservation);
     }
 
-    public static boolean validateReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
+    private static boolean validateReservationIsNotNull(Reservation reservation) {
 
-        return employeeDAO.getItem(reservation.getEmployee().getId())
-                .getReservations().stream()
-                .map(Reservation::getReservationTime)
-                .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
-    }
-
-    //TODO: Check where used
-    public static boolean validateReservationIsAvailable(Reservation reservation) throws ReservationException {
-
-        return employeeDAO.getItem(reservation.getEmployee().getId())
-                .getReservations().contains(reservation);
-    }
-
-    public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
-        return !reservation.getReservationTime().isBefore(LocalDate.now());
+        return reservation != null;
     }
 
     private static boolean validateServiceCategoryIsNotNull(Reservation reservation) {
@@ -59,6 +41,11 @@ public class ReservationValidator {
     private static boolean validateReservationTimeIsNotNull(Reservation reservation) {
 
         return reservation.getReservationTime() != null;
+    }
+
+    public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
+
+        return !reservation.getReservationTime().isBefore(LocalDate.now());
     }
 
     private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) throws ReservationException {
