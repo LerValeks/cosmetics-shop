@@ -5,6 +5,7 @@ import models.EmploymentStatus;
 import repository.EmployeeDAO;
 import service.exceptions.EmployeeException;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EmployeeValidator {
@@ -51,7 +52,9 @@ public class EmployeeValidator {
 
     public boolean validateIfCurrentEmployeeIsEmployed(Employee employee) throws EmployeeException {
 
-        return employeeDAO.getAllItems().stream()
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
                 .filter(employee1 -> employee1.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
                 .collect(Collectors.toSet())
                 .contains(employee);

@@ -9,6 +9,7 @@ import repository.EmployeeDAO;
 import service.exceptions.ClientException;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class ClientValidator {
 
@@ -50,17 +51,21 @@ public class ClientValidator {
 
     public boolean validateIfExistingClient(Client client) throws ClientException {
 
-        return clientDAO.getAllItems().contains(client);
+        Set<Client> allClients = clientDAO.getAllItems();
+
+        return allClients.contains(client);
     }
 
     public boolean validateIfExistingClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
 
-        return employeeDAO.getAllItems().stream()
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
                 .filter(employee -> employee.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
                 .map(Employee::getReservations)
                 .flatMap(Collection::stream)
                 .filter(reservation1 -> reservation1.getClient().equals(reservation.getClient()))
                 .map(Reservation::getReservationTime)
-                .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
+                .anyMatch(localDateTime -> localDateTime.equals(reservation.getReservationTime()));
     }
 }

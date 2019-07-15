@@ -1,5 +1,6 @@
 package service.validation;
 
+import models.Employee;
 import models.Reservation;
 import models.ReservationStatus;
 import repository.EmployeeDAO;
@@ -51,6 +52,7 @@ public class ReservationValidator {
         return reservation.getReservationTime() != null;
     }
 
+    //TODO: To be fixed
     public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
 
         return !reservation.getReservationTime().isBefore(LocalDateTime.now());
@@ -68,9 +70,10 @@ public class ReservationValidator {
 
     public boolean validateIfReservationTimeIsFree(Reservation reservation) throws ReservationException {
 
-        return employeeDAO.getItem(reservation.getEmployee().getPhoneNumber())
-                .getReservations().stream()
+        Employee employee = employeeDAO.getItem(reservation.getEmployee().getPhoneNumber());
+
+        return employee.getReservations().stream()
                 .map(Reservation::getReservationTime)
-                .anyMatch(localDateTime -> localDateTime == reservation.getReservationTime());
+                .anyMatch(localDateTime -> localDateTime.equals(reservation.getReservationTime()));
     }
 }

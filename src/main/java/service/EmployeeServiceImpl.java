@@ -9,6 +9,7 @@ import service.validation.EmployeeValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EmployeeServiceImpl implements EmployeeService {
@@ -60,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> EmployeesBusy = employeeDAO.getAllItems().stream()
                 .filter(employee -> employee.getServiceCategory().equals(serviceCategory))
                 .map(employee -> employee.getReservations())
-                .flatMap(List::stream)
+                .flatMap(Set::stream)
                 .filter(reservation1 -> reservation1.getReservationTime().compareTo(reservation.getReservationTime()) == 0)
                 .collect(Collectors.mapping(Reservation::getEmployee, Collectors.toList()));
 
