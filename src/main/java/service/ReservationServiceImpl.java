@@ -1,5 +1,6 @@
 package service;
 
+import models.Client;
 import models.Employee;
 import models.Reservation;
 import models.ReservationStatus;
@@ -46,9 +47,17 @@ public class ReservationServiceImpl {
         return reservation;
     }
 
+    //TODO: TBD
+    public Set<Reservation> showActiveReservations(String phoneNumber) {
+
+        return null;
+    }
+
     public Set<Reservation> showReservationsForSpecicTimePeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
 
-        return employeeDAO.getAllItems().stream()
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
                 .map(Employee::getReservations)
                 .flatMap(Set::stream)
                 .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
@@ -63,10 +72,13 @@ public class ReservationServiceImpl {
         validateReservationIsTimeNotInPast(reservation);
 
         String phoneNumber = reservation.getEmployee().getPhoneNumber();
-        employeeDAO.getItem(phoneNumber).getReservations().remove(reservation);
+        Employee employee = employeeDAO.getItem(phoneNumber);
+        Set<Reservation> listOfEmployeeReservations = employee.getReservations();
+
+        listOfEmployeeReservations.remove(reservation);
         reservation.setReservationStatus(ReservationStatus.CANCELLED);
 
-        return employeeDAO.getItem(phoneNumber).getReservations().add(reservation);
+        return listOfEmployeeReservations.add(reservation);
     }
 
     private void validateReservationParameters(Reservation reservation) throws ReservationException {
@@ -78,18 +90,23 @@ public class ReservationServiceImpl {
 
     private void validateClientParameters(Reservation reservation) throws ClientException {
 
-        if (!ClientValidator.validateClientParameters(reservation.getClient())) {
+        Client client = reservation.getClient();
+
+        if (!ClientValidator.validateClientParameters(client)) {
             throw new ClientException("Client object is null or client parameters are incorrectly initialized");
         }
     }
 
     private void validateIfEmployeeIsEmployed(Reservation reservation) throws EmployeeException {
 
-        if (!employeeValidator.validateIfCurrentEmployeeIsEmployed(reservation.getEmployee())) {
+        Employee employee = reservation.getEmployee();
+
+        if (!employeeValidator.validateIfCurrentEmployeeIsEmployed(employee)) {
             throw new EmployeeException("Employee not found!");
         }
     }
 
+    //TODO: To consider if this shall be part of reservationParameters validator
     private void validateIfReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
 
         if (reservationValidator.validateIfReservationTimeIsFree(reservation)) {
@@ -99,16 +116,13 @@ public class ReservationServiceImpl {
 
     private void validateIfClientHasReservation(Reservation reservation) throws ClientException {
 
-        if (!clientValidator.validateIfExistingClient(reservation.getClient())) {
-            clientDAO.add(reservation.getClient());
+        Client client = reservation.getClient();
+
+        if (!clientValidator.validateIfExistingClient(client)) {
+            clientDAO.add(client);
         } else if (clientValidator.validateIfExistingClientHasReservationAtTheSameTime(reservation)) {
             throw new ClientException("Client has reservation at requested time, please choose another reservation time");
         }
-    }
-
-    private void addReservationToEmployeeBook(Reservation reservation) {
-
-        reservation.getEmployee().getReservations().add(reservation);
     }
 
     private void validateReservationIsTimeNotInPast(Reservation reservation) throws ReservationException {
@@ -121,7 +135,15 @@ public class ReservationServiceImpl {
     private void validateReservationStatus(Reservation reservation) throws ReservationException {
 
         if (ReservationValidator.validateReservationStatus(reservation)) {
-            throw new ReservationException("Cannot reserve non-pending reservation status!");
+            throw new ReservationException("Cannot make reservation with non-active status!");
         }
+    }
+
+    private void addReservationToEmployeeBook(Reservation reservation) {
+
+        Employee employee = reservation.getEmployee();
+        Set<Reservation> listOfEmployeeReservations = employee.getReservations();
+
+        listOfEmployeeReservations.add(reservation);
     }
 }

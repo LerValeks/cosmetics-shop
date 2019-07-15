@@ -50,7 +50,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> showListOfEmployeesByServiceCategory(ServiceCategory serviceCategory) {
 
-        return employeeDAO.getAllItems().stream()
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
                 .filter(employee -> employee.getServiceCategory().equals(serviceCategory))
                 .collect(Collectors.toList());
     }
@@ -58,12 +60,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> showListOfEmployeesByServiceCategoryFreeAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Reservation reservation) {
 
-        List<Employee> EmployeesBusy = employeeDAO.getAllItems().stream()
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        List<Employee> EmployeesBusy = allEmployees.stream()
                 .filter(employee -> employee.getServiceCategory().equals(serviceCategory))
                 .map(employee -> employee.getReservations())
                 .flatMap(Set::stream)
                 .filter(reservation1 -> reservation1.getReservationTime().compareTo(reservation.getReservationTime()) == 0)
-                .collect(Collectors.mapping(Reservation::getEmployee, Collectors.toList()));
+                .map(Reservation::getEmployee)
+                .collect(Collectors.toList());
 
         List<Employee> allEmployeesOfThisCategory = showListOfEmployeesByServiceCategory(serviceCategory);
 

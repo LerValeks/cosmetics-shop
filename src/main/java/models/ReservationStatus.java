@@ -2,7 +2,7 @@ package models;
 
 public enum ReservationStatus {
 
-    PENDING,
+    ACTIVE,
     CANCELLED,
     COMPLETED
 }

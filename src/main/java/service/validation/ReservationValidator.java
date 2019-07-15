@@ -52,10 +52,13 @@ public class ReservationValidator {
         return reservation.getReservationTime() != null;
     }
 
-    //TODO: To be fixed
+    //TODO: Robert to advise this approach and impact on reservation cancellation
     public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
 
-        return !reservation.getReservationTime().isBefore(LocalDateTime.now());
+        LocalDateTime reservationTime = reservation.getReservationTime();
+        LocalDateTime today = LocalDateTime.now();
+
+        return !reservationTime.isBefore(today.minusMinutes(5));
     }
 
     private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) throws ReservationException {
@@ -65,15 +68,16 @@ public class ReservationValidator {
 
     public static boolean validateReservationStatus(Reservation reservation) throws ReservationException {
 
-        return reservation.getReservationStatus().equals(ReservationStatus.PENDING);
+        return reservation.getReservationStatus().equals(ReservationStatus.ACTIVE);
     }
 
     public boolean validateIfReservationTimeIsFree(Reservation reservation) throws ReservationException {
 
         Employee employee = employeeDAO.getItem(reservation.getEmployee().getPhoneNumber());
+        LocalDateTime reservationTime = reservation.getReservationTime();
 
         return employee.getReservations().stream()
                 .map(Reservation::getReservationTime)
-                .anyMatch(localDateTime -> localDateTime.equals(reservation.getReservationTime()));
+                .anyMatch(localDateTime -> localDateTime.equals(reservationTime));
     }
 }
