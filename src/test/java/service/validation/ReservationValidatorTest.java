@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import service.exceptions.ReservationException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +24,7 @@ public class ReservationValidatorTest {
     }
 
     private static Reservation createReservation(ServiceCategory serviceCategory) {
-        return new Reservation(serviceCategory, createEmployee(), createClient(), LocalDate.now());
+        return new Reservation(serviceCategory, createEmployee(), createClient(), LocalDateTime.now());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class ReservationValidatorTest {
 
         //given
         Reservation reservation = createReservation(ServiceCategory.HAIRCUT);
-        reservation.setReservationTime(LocalDate.now().minusDays(3));
+        reservation.setReservationTime(LocalDateTime.now().minusDays(3));
 
         //when
         boolean reservationTimeValidation = ReservationValidator.validateReservationIsTimeNotInPast(reservation);
