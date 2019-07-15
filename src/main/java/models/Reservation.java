@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static models.ReservationStatus.PENDING;
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -20,9 +22,9 @@ public class Reservation {
 
     public Reservation(ServiceCategory serviceCategory, Employee employee, Client client, LocalDateTime reservationTime) {
         this.serviceCategory = serviceCategory;
+        this.reservationStatus = PENDING;
         this.employee = employee;
         this.client = client;
         this.reservationTime = reservationTime;
-        this.reservationStatus = ReservationStatus.PENDING;
     }
 }

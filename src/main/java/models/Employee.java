@@ -15,14 +15,14 @@ import static models.EmploymentStatus.EMPLOYED;
 
 public class Employee extends User {
 
-    private Set<Reservation> reservations;
-    private EmploymentStatus employmentStatus;
     private ServiceCategory serviceCategory;
+    private EmploymentStatus employmentStatus;
+    private Set<Reservation> reservations;
 
     public Employee(String name, String surname, String phoneNumber, ServiceCategory serviceCategory) {
         super(name, surname, phoneNumber);
         this.serviceCategory = serviceCategory;
-        this.reservations = new HashSet<>();
         this.employmentStatus = EMPLOYED;
+        this.reservations = new HashSet<>();
     }
 }
