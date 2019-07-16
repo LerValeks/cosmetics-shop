@@ -1,9 +1,6 @@
 package service;
 
-import models.Client;
-import models.Employee;
-import models.Reservation;
-import models.ReservationStatus;
+import models.*;
 import repository.ClientDAO;
 import repository.EmployeeDAO;
 import service.exceptions.ClientException;
@@ -14,6 +11,7 @@ import service.validation.EmployeeValidator;
 import service.validation.ReservationValidator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,10 +45,18 @@ public class ReservationServiceImpl {
         return reservation;
     }
 
-    //TODO: TBD
     public Set<Reservation> showActiveReservations(String phoneNumber) {
 
-        return null;
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+        LocalDateTime today = LocalDateTime.now();
+
+        return allEmployees.stream()
+                .filter(employee -> employee.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
+                .map(Employee::getReservations)
+                .flatMap(Set::stream)
+                .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
+                .filter(reservation -> reservation.getReservationTime().isAfter(LocalDateTime.now().minusMinutes(5)))
+                .collect(Collectors.toSet());
     }
 
     public Set<Reservation> showReservationsForSpecicTimePeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
