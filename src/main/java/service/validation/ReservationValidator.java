@@ -53,15 +53,15 @@ public class ReservationValidator {
     }
 
     //TODO: Robert to advise this approach and impact on reservation cancellation
-    public static boolean validateReservationIsTimeNotInPast(Reservation reservation) {
+    public static boolean validateReservationIsTimeNotInPast(Reservation reservation) throws ReservationException {
 
         LocalDateTime reservationTime = reservation.getReservationTime();
-        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
 
-        return !reservationTime.isBefore(today.minusMinutes(5));
+        return !reservationTime.isBefore(now.minusMinutes(5));
     }
 
-    private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) throws ReservationException {
+    private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) {
 
         return reservation.getEmployee().getServiceCategory().equals(reservation.getServiceCategory());
     }
@@ -71,9 +71,11 @@ public class ReservationValidator {
         return reservation.getReservationStatus().equals(ReservationStatus.ACTIVE);
     }
 
+    //TODO: Make sure  validation time trims seconds
     public boolean validateIfReservationTimeIsFree(Reservation reservation) throws ReservationException {
 
-        Employee employee = employeeDAO.getItem(reservation.getEmployee().getPhoneNumber());
+        String phoneNumber = reservation.getEmployee().getPhoneNumber();
+        Employee employee = employeeDAO.getItem(phoneNumber);
         LocalDateTime reservationTime = reservation.getReservationTime();
 
         return employee.getReservations().stream()
