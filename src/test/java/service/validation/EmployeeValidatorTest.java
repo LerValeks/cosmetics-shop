@@ -18,8 +18,7 @@ import service.exceptions.EmployeeException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 
@@ -35,10 +34,10 @@ public class EmployeeValidatorTest {
     private EmployeeValidator employeeValidator;
 
     private static Employee createEmployee() {
-        return new Employee("John", "Snow", "9379992", ServiceCategory.HAIRCUT);
+
+        return new Employee("Alfa", "Employee", "937 99 92", ServiceCategory.HAIRCUT);
     }
 
-    //TODO: When hashcode is overriden in Employee class -> all employees created below are treated as same and not added to set. Why if they have different phone number?
     private static Set<Employee> createEmployees() {
 
         Set<Employee> employees = new HashSet<>();
@@ -115,9 +114,25 @@ public class EmployeeValidatorTest {
     }
 
     //TODO: Robert to advise why cannot do .setEmploymentstatus on employees.add(employee.setsmth...)?
-    //TODO: Test not working. Cannot inject (mock) static employeeDAO. Robert to advise what to do.
     @Test
-    public void validateIfCurrentEmployee() throws EmployeeException {
+    public void validateIfCurrentEmployeeIsEmployed_shouldReturnTrue_IfEmployeeIsEmployed() throws EmployeeException {
+
+        //given
+        Set<Employee> employees = createEmployees();
+        Employee employee = createEmployee();
+        employees.add(employee);
+
+        //when
+        Mockito.when(employeeDAO.getAllItems()).thenReturn(employees);
+        boolean employeeAvailableInDAO = employeeValidator.validateIfCurrentEmployeeIsEmployed(employee);
+
+        //then
+        Assert.assertTrue(employeeAvailableInDAO);
+        assertEquals(6, employees.size());
+    }
+
+    @Test
+    public void validateIfCurrentEmployeeIsEmployed_shouldReturnFalse_IfEmployeeIsNotEmployed() throws EmployeeException {
 
         //given
         Set<Employee> employees = createEmployees();
@@ -127,7 +142,10 @@ public class EmployeeValidatorTest {
 
         //when
         Mockito.when(employeeDAO.getAllItems()).thenReturn(employees);
+        boolean employeeAvailableInDAO = employeeValidator.validateIfCurrentEmployeeIsEmployed(employee);
 
         //then
+        Assert.assertFalse(employeeAvailableInDAO);
+        assertEquals(6, employees.size());
     }
 }
