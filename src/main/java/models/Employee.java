@@ -11,7 +11,7 @@ import static models.EmploymentStatus.EMPLOYED;
 
 @Setter
 @Getter
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "reservations")
 
 public class Employee extends User {
 
