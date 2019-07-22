@@ -86,4 +86,36 @@ public class ReservationServiceImplTest {
     @Test
     public void cancelClientReservation() {
     }
+
+    @Test
+    public void makeReservation1() {
+    }
+
+    @Test
+    public void showActiveReservations1() {
+    }
+
+    @Test
+    public void showReservationsForSpecicTimePeriod1() {
+    }
+
+    @Test
+    public void cancelClientReservation1() {
+    }
+
+    @Test
+    public void validateIfExistingClientHasReservationAtTheSameTime() {
+    }
+
+    @Test
+    public void validateIfExistingClient() {
+    }
+
+    @Test
+    public void validateIfCurrentEmployeeIsEmployed() {
+    }
+
+    @Test
+    public void validateIfReservationTimeIsFree() {
+    }
 }

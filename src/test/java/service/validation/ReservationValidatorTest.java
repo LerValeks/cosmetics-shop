@@ -7,26 +7,18 @@ import models.ServiceCategory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import repository.EmployeeDAO;
 import service.exceptions.ReservationException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @RunWith(MockitoJUnitRunner.class)
-
 public class ReservationValidatorTest {
 
-    @Mock
-    EmployeeDAO employeeDAO;
+    private static Reservation createReservation(Employee employee, Client client) {
 
-    @InjectMocks
-    ReservationValidator reservationValidator;
+        return new Reservation(ServiceCategory.HAIRCUT, employee, client, LocalDateTime.now());
+    }
 
     private static Employee createEmployee() {
 
@@ -38,12 +30,6 @@ public class ReservationValidatorTest {
         return new Client("Alfa", "Client", "777 77 77");
     }
 
-    private static Reservation createReservation(Employee employee, Client client) {
-
-        return new Reservation(ServiceCategory.HAIRCUT, employee, client, LocalDateTime.now());
-    }
-
-    @Test
     public void validateReservationParameters_shouldReturnTrue_IfReservationIsNotNullAndAllParametersAreNotNull() throws ReservationException {
 
         //given
@@ -83,26 +69,5 @@ public class ReservationValidatorTest {
         //then
         Assert.assertNotNull(reservation);
         Assert.assertTrue(correctReservationTime);
-    }
-
-    @Test
-    public void validateIfReservationTimeIsFree_shouldReturnTrue_IfEmployeeHasFreeTimeSlot() throws ReservationException {
-
-        //given
-        Client client = createClient();
-        Employee employee = createEmployee();
-
-        Reservation newReservation = createReservation(employee, client);
-        Reservation existingReservation = createReservation(employee, client);
-        existingReservation.setReservationTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 30)));
-
-        employee.getReservations().add(existingReservation);
-
-        //when
-        Mockito.when(employeeDAO.getItem(Mockito.anyString())).thenReturn(employee);
-        boolean availableTime = reservationValidator.validateIfReservationTimeIsFree(newReservation);
-
-        //then
-        Assert.assertFalse(availableTime);
     }
 }
