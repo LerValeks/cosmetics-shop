@@ -23,7 +23,11 @@ public class ReservationServiceImpl {
     private ClientValidator clientValidator;
     private ReservationValidator reservationValidator;
 
-    public ReservationServiceImpl(EmployeeDAO employeeDAO, ClientDAO clientDAO, EmployeeValidator employeeValidator, ClientValidator clientValidator, ReservationValidator reservationValidator) {
+    public ReservationServiceImpl(EmployeeDAO employeeDAO,
+                                  ClientDAO clientDAO,
+                                  EmployeeValidator employeeValidator,
+                                  ClientValidator clientValidator,
+                                  ReservationValidator reservationValidator) {
         this.employeeDAO = employeeDAO;
         this.clientDAO = clientDAO;
         this.employeeValidator = employeeValidator;
@@ -33,11 +37,11 @@ public class ReservationServiceImpl {
 
     public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
-        validateReservationParameters(reservation);
-        validateReservationStatus(reservation);
+        validateReservationParameters(reservation); //done
+        validateReservationStatus(reservation); //done
         validateIfEmployeeIsEmployed(reservation);
         validateIfReservationTimeIsAvailable(reservation);
-        validateClientParameters(reservation);
+        validateClientParameters(reservation); //done
         validateIfClientHasReservation(reservation);
 
         addReservationToEmployeeBook(reservation);
