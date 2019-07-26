@@ -50,7 +50,7 @@ public class ReservationValidator {
     }
 
     //TODO: Robert to advise this approach and impact on reservation cancellation
-    public static boolean validateReservationIsTimeNotInPast(Reservation reservation) throws ReservationException {
+    private static boolean validateReservationIsTimeNotInPast(Reservation reservation) throws ReservationException {
 
         LocalDateTime reservationTime = reservation.getReservationTime();
         LocalDateTime now = LocalDateTime.now();

@@ -131,6 +131,4 @@ public class EmployeeServiceImplTest {
         assertNotNull(employee2);
         Mockito.verify(employeeDAO, Mockito.times(1)).delete(any(Employee.class));
     }
-
-
 }

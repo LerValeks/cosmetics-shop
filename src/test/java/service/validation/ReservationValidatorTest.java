@@ -15,11 +15,6 @@ import java.time.LocalDateTime;
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationValidatorTest {
 
-    private static Reservation createReservation(Employee employee, Client client) {
-
-        return new Reservation(ServiceCategory.HAIRCUT, employee, client, LocalDateTime.now());
-    }
-
     private static Employee createEmployee() {
 
         return new Employee("Alfa", "Employee", "937 99 92", ServiceCategory.HAIRCUT);
@@ -43,19 +38,19 @@ public class ReservationValidatorTest {
         Assert.assertTrue(correctReservation);
     }
 
-    @Test
-    public void validateReservationIsTimeNotInPast_shouldReturnTrue_IfTimeIsNotEarlierThanFiveMinutesBeforeNow() throws ReservationException {
-
-        //given
-        Reservation reservation = new Reservation(ServiceCategory.HAIRCUT, createEmployee(), createClient(), LocalDateTime.now());
-
-        //when
-        boolean correctReservationTime = ReservationValidator.validateReservationIsTimeNotInPast(reservation);
-
-        //then
-        Assert.assertNotNull(reservation);
-        Assert.assertTrue(correctReservationTime);
-    }
+//    @Test
+//    public void validateReservationIsTimeNotInPast_shouldReturnTrue_IfTimeIsNotEarlierThanFiveMinutesBeforeNow() throws ReservationException {
+//
+//        //given
+//        Reservation reservation = new Reservation(ServiceCategory.HAIRCUT, createEmployee(), createClient(), LocalDateTime.now());
+//
+//        //when
+//        boolean correctReservationTime = ReservationValidator.validateReservationIsTimeNotInPast(reservation);
+//
+//        //then
+//        Assert.assertNotNull(reservation);
+//        Assert.assertTrue(correctReservationTime);
+//    }
 
     @Test
     public void validateReservationStatus_shouldReturnTrue_IfReservationStatusIsActive() throws ReservationException {

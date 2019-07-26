@@ -12,6 +12,7 @@ import service.validation.ReservationValidator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,11 +38,11 @@ public class ReservationServiceImpl {
 
     public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
-        validateReservationParameters(reservation); //done
-        validateReservationStatus(reservation); //done
+        validateReservationParameters(reservation);
+        validateReservationStatus(reservation);
         validateIfEmployeeIsEmployed(reservation);
         validateIfReservationTimeIsAvailable(reservation);
-        validateClientParameters(reservation); //done
+        validateClientParameters(reservation);
         validateIfClientHasReservation(reservation);
 
         addReservationToEmployeeBook(reservation);
@@ -49,6 +50,7 @@ public class ReservationServiceImpl {
         return reservation;
     }
 
+    //TODO: Consider removing exception
     public Set<Reservation> showActiveReservations(String phoneNumber) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
@@ -63,7 +65,8 @@ public class ReservationServiceImpl {
                 .collect(Collectors.toSet());
     }
 
-    public Set<Reservation> showReservationsForSpecicTimePeriod(String phoneNumber, LocalDate startDate, LocalDate endDate) throws ClientException {
+    //TODO: Consider removing exception
+    public Set<Reservation> showReservationsForSpecificTimePeriod(String phoneNumber, LocalDate fromDate, LocalDate toDate) throws ClientException {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
 
@@ -71,20 +74,17 @@ public class ReservationServiceImpl {
                 .map(Employee::getReservations)
                 .flatMap(Set::stream)
                 .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
-                .filter(reservation -> reservation.getReservationTime().toLocalDate().compareTo(startDate) == 0 || reservation.getReservationTime().toLocalDate().compareTo(startDate) > 0)
-                .filter(reservation -> reservation.getReservationTime().toLocalDate().compareTo(endDate) == 0 || reservation.getReservationTime().toLocalDate().compareTo(endDate) < 0)
+                .filter(reservation -> reservation.getReservationTime().toLocalDate().compareTo(fromDate) == 0 || reservation.getReservationTime().toLocalDate().compareTo(fromDate) > 0)
+                .filter(reservation -> reservation.getReservationTime().toLocalDate().compareTo(toDate) == 0 || reservation.getReservationTime().toLocalDate().compareTo(toDate) < 0)
                 .collect(Collectors.toSet());
     }
 
     public boolean cancelClientReservation(Reservation reservation) throws ReservationException {
 
         validateReservationParameters(reservation);
-        validateReservationIsTimeNotInPast(reservation);
-
         String phoneNumber = reservation.getEmployee().getPhoneNumber();
         Employee employee = employeeDAO.getItem(phoneNumber);
         Set<Reservation> listOfEmployeeReservations = employee.getReservations();
-
         listOfEmployeeReservations.remove(reservation);
         reservation.setReservationStatus(ReservationStatus.CANCELLED);
 
@@ -111,7 +111,7 @@ public class ReservationServiceImpl {
 
         Employee employee = reservation.getEmployee();
 
-        if (!employeeValidator.validateIfCurrentEmployeeIsEmployed(employee)) {
+        if (!checkIfCurrentEmployeeIsEmployed(employee)) {
             throw new EmployeeException("Employee not found!");
         }
     }
@@ -119,7 +119,7 @@ public class ReservationServiceImpl {
     //TODO: To consider if this shall be part of reservationParameters validator
     private void validateIfReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
 
-        if (reservationValidator.validateIfReservationTimeIsFree(reservation)) {
+        if (checkIfReservationTimeIsBooked(reservation)) {
             throw new ReservationException("This time is already booked. Please try another time");
         }
     }
@@ -128,23 +128,16 @@ public class ReservationServiceImpl {
 
         Client client = reservation.getClient();
 
-        if (!clientValidator.validateIfExistingClient(client)) {
+        if (!checkIfExistingClient(client)) {
             clientDAO.add(client);
-        } else if (clientValidator.validateIfExistingClientHasReservationAtTheSameTime(reservation)) {
+        } else if (checkIfExistingClientHasReservationAtTheSameTime(reservation)) {
             throw new ClientException("Client has reservation at requested time, please choose another reservation time");
-        }
-    }
-
-    private void validateReservationIsTimeNotInPast(Reservation reservation) throws ReservationException {
-
-        if (ReservationValidator.validateReservationIsTimeNotInPast(reservation)) {
-            throw new ReservationException("Past due reservation cannot be cancelled!");
         }
     }
 
     private void validateReservationStatus(Reservation reservation) throws ReservationException {
 
-        if (ReservationValidator.validateReservationStatus(reservation)) {
+        if (!ReservationValidator.validateReservationStatus(reservation)) {
             throw new ReservationException("Cannot make reservation with non-active status!");
         }
     }
@@ -155,5 +148,48 @@ public class ReservationServiceImpl {
         Set<Reservation> listOfEmployeeReservations = employee.getReservations();
 
         listOfEmployeeReservations.add(reservation);
+    }
+
+    public boolean checkIfExistingClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
+
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+        String clientPhoneNumber = reservation.getClient().getPhoneNumber();
+
+        return allEmployees.stream()
+                .filter(employee -> employee.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
+                .map(Employee::getReservations)
+                .flatMap(Collection::stream)
+                .filter(reservation1 -> reservation1.getClient().getPhoneNumber().equals(clientPhoneNumber))
+                .map(Reservation::getReservationTime)
+                .anyMatch(localDateTime -> localDateTime.equals(reservation.getReservationTime()));
+    }
+
+    public boolean checkIfExistingClient(Client client) throws ClientException {
+
+        Set<Client> allClients = clientDAO.getAllItems();
+
+        return allClients.contains(client);
+    }
+
+    public boolean checkIfCurrentEmployeeIsEmployed(Employee employee) throws EmployeeException {
+
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
+                .filter(employee1 -> employee1.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
+                .collect(Collectors.toSet())
+                .contains(employee);
+    }
+
+    //TODO: Make sure  validation time trims seconds
+    public boolean checkIfReservationTimeIsBooked(Reservation reservation) throws ReservationException {
+
+        String phoneNumber = reservation.getEmployee().getPhoneNumber();
+        Employee employee = employeeDAO.getItem(phoneNumber);
+        LocalDateTime reservationTime = reservation.getReservationTime();
+
+        return employee.getReservations().stream()
+                .map(Reservation::getReservationTime)
+                .anyMatch(localDateTime -> localDateTime.equals(reservationTime));
     }
 }
