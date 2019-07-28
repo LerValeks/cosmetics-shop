@@ -1,6 +1,7 @@
 package service;
 
 import models.Employee;
+import models.EmploymentStatus;
 import models.Reservation;
 import models.ServiceCategory;
 import repository.EmployeeDAO;
@@ -22,7 +23,7 @@ public class EmployeeServiceImpl {
 
     public Employee add(Employee employee) throws EmployeeException {
 
-        if (EmployeeValidator.validateEmployeeParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee object is null or employee parameters are incorrectly initialized");
         }
         return employeeDAO.add(employee);
@@ -30,7 +31,7 @@ public class EmployeeServiceImpl {
 
     public Employee update(Employee employee) throws EmployeeException {
 
-        if (EmployeeValidator.validateEmployeeParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee object is null or employee parameters are incorrectly initialized");
         }
         return employeeDAO.update(employee);
@@ -38,7 +39,7 @@ public class EmployeeServiceImpl {
 
     public Employee delete(Employee employee) throws EmployeeException {
 
-        if (EmployeeValidator.validateEmployeeParameters(employee)) {
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
             throw new EmployeeException("Employee object is null or employee parameters are incorrectly initialized");
         }
         return employeeDAO.delete(employee);
@@ -70,5 +71,15 @@ public class EmployeeServiceImpl {
         List<Employee> freeEmployee = new ArrayList<>(allEmployeesOfThisCategory);
         freeEmployee.removeAll(EmployeesBusy);
         return freeEmployee;
+    }
+
+    public boolean checkIfCurrentEmployeeIsEmployed(Employee employee) throws EmployeeException {
+
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
+                .filter(employee1 -> employee1.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
+                .collect(Collectors.toSet())
+                .contains(employee);
     }
 }

@@ -12,6 +12,8 @@ import service.exceptions.ReservationException;
 
 import java.time.LocalDateTime;
 
+import static org.junit.Assert.assertFalse;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationValidatorTest {
 
@@ -23,6 +25,15 @@ public class ReservationValidatorTest {
     private static Client createClient() {
 
         return new Client("Alfa", "Client", "777 77 77");
+    }
+
+    private static Reservation createReservation() {
+
+        return new Reservation(
+                ServiceCategory.HAIRCUT,
+                createEmployee(),
+                createClient(),
+                LocalDateTime.now());
     }
 
     @Test
@@ -37,5 +48,54 @@ public class ReservationValidatorTest {
         //then
         Assert.assertNotNull(reservation);
         Assert.assertTrue(correctReservation);
+    }
+
+    @Test
+    public void validateReservationParameters_shouldReturnFalse_IfReservationIsNull() throws ReservationException {
+
+        //given
+        Reservation reservation = null;
+
+        //when
+        boolean reservationValidation = ReservationValidator.validateReservationParameters(reservation);
+
+        //then
+        assertFalse(reservationValidation);
+    }
+
+    @Test
+    public void validateReservationParameters_shouldReturnFalseIfReservationHasOneNullParameter() throws ReservationException {
+
+        //given
+        Reservation reservation1 = createReservation();
+        reservation1.setServiceCategory(null);
+
+        Reservation reservation2 = createReservation();
+        reservation2.setEmployee(null);
+
+        Reservation reservation3 = createReservation();
+        reservation3.setClient(null);
+
+        Reservation reservation4 = createReservation();
+        reservation4.setReservationTime(null);
+
+        //when
+        boolean reservationValidation1 = ReservationValidator.validateReservationParameters(reservation1);
+        boolean reservationValidation2 = ReservationValidator.validateReservationParameters(reservation2);
+        boolean reservationValidation3 = ReservationValidator.validateReservationParameters(reservation3);
+        boolean reservationValidation4 = ReservationValidator.validateReservationParameters(reservation4);
+
+        //then
+        Assert.assertNotNull(reservation1);
+        assertFalse(reservationValidation1);
+
+        Assert.assertNotNull(reservation2);
+        assertFalse(reservationValidation2);
+
+        Assert.assertNotNull(reservation3);
+        assertFalse(reservationValidation3);
+
+        Assert.assertNotNull(reservation4);
+        assertFalse(reservationValidation4);
     }
 }
