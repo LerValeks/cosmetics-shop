@@ -5,7 +5,7 @@ import repository.ClientDAO;
 import service.exceptions.ClientException;
 import service.validation.ClientValidator;
 
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl {
 
     private final ClientDAO clientDAO;
 
@@ -13,7 +13,6 @@ public class ClientServiceImpl implements ClientService {
         this.clientDAO = clientDAO;
     }
 
-    @Override
     public Client add(Client client) throws ClientException {
 
         if (ClientValidator.validateClientParameters(client)) {
@@ -22,7 +21,6 @@ public class ClientServiceImpl implements ClientService {
         return clientDAO.add(client);
     }
 
-    @Override
     public Client update(Client client) throws ClientException {
 
         if (ClientValidator.validateClientParameters(client)) {
@@ -31,7 +29,6 @@ public class ClientServiceImpl implements ClientService {
         return clientDAO.update(client);
     }
 
-    @Override
     public Client delete(Client client) throws ClientException {
 
         if (ClientValidator.validateClientParameters(client)) {

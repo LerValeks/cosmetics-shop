@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl {
 
     private final EmployeeDAO employeeDAO;
 
@@ -20,7 +20,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeDAO = employeeDAO;
     }
 
-    @Override
     public Employee add(Employee employee) throws EmployeeException {
 
         if (EmployeeValidator.validateEmployeeParameters(employee)) {
@@ -29,7 +28,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDAO.add(employee);
     }
 
-    @Override
     public Employee update(Employee employee) throws EmployeeException {
 
         if (EmployeeValidator.validateEmployeeParameters(employee)) {
@@ -38,7 +36,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDAO.update(employee);
     }
 
-    @Override
     public Employee delete(Employee employee) throws EmployeeException {
 
         if (EmployeeValidator.validateEmployeeParameters(employee)) {
@@ -47,7 +44,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDAO.delete(employee);
     }
 
-    @Override
     public List<Employee> showListOfEmployeesByServiceCategory(ServiceCategory serviceCategory) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
@@ -57,7 +53,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<Employee> showListOfEmployeesByServiceCategoryFreeAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Reservation reservation) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
