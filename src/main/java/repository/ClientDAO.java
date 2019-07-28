@@ -12,12 +12,12 @@ public class ClientDAO implements DAOItem<Client> {
     }
 
     @Override
-    public Client delete(Client domain) {
+    public Client update(Client domain) {
         return domain;
     }
 
     @Override
-    public Client update(Client domain) {
+    public Client delete(Client domain) {
         return domain;
     }
 

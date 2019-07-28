@@ -25,9 +25,9 @@ public class Reservation {
                        Client client,
                        LocalDateTime reservationTime) {
         this.serviceCategory = serviceCategory;
-        this.reservationStatus = ACTIVE;
         this.employee = employee;
         this.client = client;
         this.reservationTime = reservationTime;
+        this.reservationStatus = ACTIVE;
     }
 }

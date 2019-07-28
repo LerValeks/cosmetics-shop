@@ -158,7 +158,7 @@ public class ReservationServiceImplTest {
 
         //when
         Mockito.when(employeeDAO.getAllItems()).thenReturn(employees);
-        Set<Reservation> activeReservations = reservationService.showReservationsForSpecificTimePeriod("937 99 91",
+        Set<Reservation> activeReservations = reservationService.showAllReservationsForSpecificTimePeriod("937 99 91",
                 LocalDate.now().plusDays(2),
                 LocalDate.now().plusDays(5));
 

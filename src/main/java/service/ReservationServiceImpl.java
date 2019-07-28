@@ -51,7 +51,6 @@ public class ReservationServiceImpl {
         return reservation;
     }
 
-    //TODO: Consider removing exception
     public Set<Reservation> showActiveReservations(String phoneNumber) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
@@ -62,12 +61,11 @@ public class ReservationServiceImpl {
                 .map(Employee::getReservations)
                 .flatMap(Set::stream)
                 .filter(reservation -> reservation.getClient().getPhoneNumber().equals(phoneNumber))
-                .filter(reservation -> reservation.getReservationTime().isAfter(LocalDateTime.now().minusMinutes(5)))
+                .filter(reservation -> reservation.getReservationTime().isAfter(today.minusMinutes(5)))
                 .collect(Collectors.toSet());
     }
 
-    //TODO: Consider removing exception
-    public Set<Reservation> showReservationsForSpecificTimePeriod(String phoneNumber, LocalDate fromDate, LocalDate toDate) throws ClientException {
+    public Set<Reservation> showAllReservationsForSpecificTimePeriod(String phoneNumber, LocalDate fromDate, LocalDate toDate) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
 
@@ -83,9 +81,15 @@ public class ReservationServiceImpl {
     public boolean cancelClientReservation(Reservation reservation) throws ReservationException {
 
         validateReservationParameters(reservation);
+
         String phoneNumber = reservation.getEmployee().getPhoneNumber();
         Employee employee = employeeDAO.getItem(phoneNumber);
         Set<Reservation> listOfEmployeeReservations = employee.getReservations();
+
+        if (!listOfEmployeeReservations.contains(reservation)) {
+            throw new ReservationException("Such reservation doesn't exist therefore cannot be cancelled");
+        }
+
         listOfEmployeeReservations.remove(reservation);
         reservation.setReservationStatus(ReservationStatus.CANCELLED);
 
