@@ -130,12 +130,4 @@ public class ClientServiceImplTest {
         assertNotNull(clientTest);
         Mockito.verify(clientDAO, Mockito.times(1)).delete(any(Client.class));
     }
-
-    @Test
-    public void reservationByClient() {
-    }
-
-    @Test
-    public void reservationByClientInSpecificPeriod() {
-    }
 }

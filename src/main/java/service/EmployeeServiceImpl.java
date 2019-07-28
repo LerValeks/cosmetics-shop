@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<Employee> EmployeesBusy = allEmployees.stream()
                 .filter(employee -> employee.getServiceCategory().equals(serviceCategory))
-                .map(employee -> employee.getReservations())
+                .map(Employee::getReservations)
                 .flatMap(Set::stream)
                 .filter(reservation1 -> reservation1.getReservationTime().compareTo(reservation.getReservationTime()) == 0)
                 .map(Reservation::getEmployee)

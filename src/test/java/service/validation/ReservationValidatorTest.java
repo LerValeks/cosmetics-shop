@@ -25,6 +25,7 @@ public class ReservationValidatorTest {
         return new Client("Alfa", "Client", "777 77 77");
     }
 
+    @Test
     public void validateReservationParameters_shouldReturnTrue_IfReservationIsNotNullAndAllParametersAreNotNull() throws ReservationException {
 
         //given
@@ -36,33 +37,5 @@ public class ReservationValidatorTest {
         //then
         Assert.assertNotNull(reservation);
         Assert.assertTrue(correctReservation);
-    }
-
-//    @Test
-//    public void validateReservationIsTimeNotInPast_shouldReturnTrue_IfTimeIsNotEarlierThanFiveMinutesBeforeNow() throws ReservationException {
-//
-//        //given
-//        Reservation reservation = new Reservation(ServiceCategory.HAIRCUT, createEmployee(), createClient(), LocalDateTime.now());
-//
-//        //when
-//        boolean correctReservationTime = ReservationValidator.validateReservationIsTimeNotInPast(reservation);
-//
-//        //then
-//        Assert.assertNotNull(reservation);
-//        Assert.assertTrue(correctReservationTime);
-//    }
-
-    @Test
-    public void validateReservationStatus_shouldReturnTrue_IfReservationStatusIsActive() throws ReservationException {
-
-        //given
-        Reservation reservation = new Reservation(ServiceCategory.HAIRCUT, createEmployee(), createClient(), LocalDateTime.now());
-
-        //when
-        boolean correctReservationTime = ReservationValidator.validateReservationStatus(reservation);
-
-        //then
-        Assert.assertNotNull(reservation);
-        Assert.assertTrue(correctReservationTime);
     }
 }

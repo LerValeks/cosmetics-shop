@@ -40,10 +40,11 @@ public class ReservationServiceImpl {
     public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
         validateReservationParameters(reservation);
+        validateEmployeeParameters(reservation);
         checkIfEmployeeIsEmployed(reservation);
         checkIfReservationTimeIsAvailable(reservation);
         validateClientParameters(reservation);
-        validateIfClientHasReservation(reservation);
+        checkIfClientHasOtherReservations(reservation);
 
         addReservationToEmployeeBook(reservation);
 
@@ -98,6 +99,15 @@ public class ReservationServiceImpl {
         }
     }
 
+    private void validateEmployeeParameters(Reservation reservation) throws EmployeeException {
+
+        Employee employee = reservation.getEmployee();
+
+        if (!EmployeeValidator.validateEmployeeParameters(employee)) {
+            throw new EmployeeException("Employee object is null or employee parameters are incorrectly initialized");
+        }
+    }
+
     private void validateClientParameters(Reservation reservation) throws ClientException {
 
         Client client = reservation.getClient();
@@ -112,18 +122,40 @@ public class ReservationServiceImpl {
         Employee employee = reservation.getEmployee();
 
         if (!checkIfCurrentEmployeeIsEmployed(employee)) {
-            throw new EmployeeException("Employee not found!");
+            throw new EmployeeException("Employee not found! Please check if you've chosen correct employee");
         }
+    }
+
+    public boolean checkIfCurrentEmployeeIsEmployed(Employee employee) throws EmployeeException {
+
+        Set<Employee> allEmployees = employeeDAO.getAllItems();
+
+        return allEmployees.stream()
+                .filter(employee1 -> employee1.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
+                .collect(Collectors.toSet())
+                .contains(employee);
     }
 
     private void checkIfReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
 
-        if (checkIfReservationTimeIsBooked(reservation)) {
+        if (checkIfReservationTimeIsAlreadyTaken(reservation)) {
             throw new ReservationException("This time is already booked. Please try another time");
         }
     }
 
-    private void validateIfClientHasReservation(Reservation reservation) throws ClientException {
+    //TODO: Make sure  validation time trims seconds
+    public boolean checkIfReservationTimeIsAlreadyTaken(Reservation reservation) throws ReservationException {
+
+        String phoneNumber = reservation.getEmployee().getPhoneNumber();
+        Employee employee = employeeDAO.getItem(phoneNumber);
+        LocalDateTime reservationTime = reservation.getReservationTime();
+
+        return employee.getReservations().stream()
+                .map(Reservation::getReservationTime)
+                .anyMatch(localDateTime -> localDateTime.equals(reservationTime));
+    }
+
+    private void checkIfClientHasOtherReservations(Reservation reservation) throws ClientException {
 
         Client client = reservation.getClient();
 
@@ -134,12 +166,11 @@ public class ReservationServiceImpl {
         }
     }
 
-    private void addReservationToEmployeeBook(Reservation reservation) {
+    public boolean checkIfExistingClient(Client client) {
 
-        Employee employee = reservation.getEmployee();
-        Set<Reservation> listOfEmployeeReservations = employee.getReservations();
+        Set<Client> allClients = clientDAO.getAllItems();
 
-        listOfEmployeeReservations.add(reservation);
+        return allClients.contains(client);
     }
 
     public boolean checkIfExistingClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
@@ -156,32 +187,11 @@ public class ReservationServiceImpl {
                 .anyMatch(localDateTime -> localDateTime.equals(reservation.getReservationTime()));
     }
 
-    public boolean checkIfExistingClient(Client client) throws ClientException {
+    private void addReservationToEmployeeBook(Reservation reservation) {
 
-        Set<Client> allClients = clientDAO.getAllItems();
+        Employee employee = reservation.getEmployee();
+        Set<Reservation> listOfEmployeeReservations = employee.getReservations();
 
-        return allClients.contains(client);
-    }
-
-    public boolean checkIfCurrentEmployeeIsEmployed(Employee employee) throws EmployeeException {
-
-        Set<Employee> allEmployees = employeeDAO.getAllItems();
-
-        return allEmployees.stream()
-                .filter(employee1 -> employee1.getEmploymentStatus().equals(EmploymentStatus.EMPLOYED))
-                .collect(Collectors.toSet())
-                .contains(employee);
-    }
-
-    //TODO: Make sure  validation time trims seconds
-    public boolean checkIfReservationTimeIsBooked(Reservation reservation) throws ReservationException {
-
-        String phoneNumber = reservation.getEmployee().getPhoneNumber();
-        Employee employee = employeeDAO.getItem(phoneNumber);
-        LocalDateTime reservationTime = reservation.getReservationTime();
-
-        return employee.getReservations().stream()
-                .map(Reservation::getReservationTime)
-                .anyMatch(localDateTime -> localDateTime.equals(reservationTime));
+        listOfEmployeeReservations.add(reservation);
     }
 }

@@ -286,7 +286,7 @@ public class ReservationServiceImplTest {
 
         //when
         Mockito.when(employeeDAO.getItem(Mockito.anyString())).thenReturn(employee);
-        boolean availableTime = reservationService.checkIfReservationTimeIsBooked(newReservation);
+        boolean availableTime = reservationService.checkIfReservationTimeIsAlreadyTaken(newReservation);
 
         //then
         Assert.assertFalse(availableTime);
