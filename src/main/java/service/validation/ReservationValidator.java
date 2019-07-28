@@ -2,6 +2,7 @@ package service.validation;
 
 import models.Reservation;
 import models.ReservationStatus;
+import models.ServiceCategory;
 import service.exceptions.ReservationException;
 
 import java.time.LocalDateTime;
@@ -15,8 +16,9 @@ public class ReservationValidator {
                 && validateEmployeeIsNotNull(reservation)
                 && validateClientIsNotNull(reservation)
                 && validateReservationTimeIsNotNull(reservation)
-                && validateReservationIsTimeNotInPast(reservation)
-                && validateReservationServiceMatchesEmployeeSpecialization(reservation);
+                && validateReservationTimeIsNotInPast(reservation)
+                && validateReservationServiceMatchesEmployeeSpecialization(reservation)
+                && validateReservationStatusIsActive(reservation);
     }
 
     private static boolean validateReservationIsNotNull(Reservation reservation) {
@@ -44,13 +46,8 @@ public class ReservationValidator {
         return reservation.getReservationTime() != null;
     }
 
-    private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) {
-
-        return reservation.getEmployee().getServiceCategory().equals(reservation.getServiceCategory());
-    }
-
-    //TODO: Robert to advise this approach and impact on reservation cancellation
-    private static boolean validateReservationIsTimeNotInPast(Reservation reservation) throws ReservationException {
+    //TODO: Robert to advise if this approach is correct from business logic perspective
+    private static boolean validateReservationTimeIsNotInPast(Reservation reservation) {
 
         LocalDateTime reservationTime = reservation.getReservationTime();
         LocalDateTime now = LocalDateTime.now();
@@ -58,7 +55,15 @@ public class ReservationValidator {
         return !reservationTime.isBefore(now.minusMinutes(5));
     }
 
-    public static boolean validateReservationStatus(Reservation reservation) throws ReservationException {
+    private static boolean validateReservationServiceMatchesEmployeeSpecialization(Reservation reservation) {
+
+        ServiceCategory employeeServiceCategory = reservation.getEmployee().getServiceCategory();
+        ServiceCategory reservationServiceCategory = reservation.getServiceCategory();
+
+        return employeeServiceCategory.equals(reservationServiceCategory);
+    }
+
+    private static boolean validateReservationStatusIsActive(Reservation reservation) {
 
         return reservation.getReservationStatus().equals(ReservationStatus.ACTIVE);
     }

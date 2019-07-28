@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 public class ReservationServiceImpl {
 
+    //TODO: Why validators are in grey?
     private final EmployeeDAO employeeDAO;
     private final ClientDAO clientDAO;
     private EmployeeValidator employeeValidator;
@@ -39,9 +40,8 @@ public class ReservationServiceImpl {
     public Reservation makeReservation(Reservation reservation) throws ClientException, EmployeeException, ReservationException {
 
         validateReservationParameters(reservation);
-        validateReservationStatus(reservation);
-        validateIfEmployeeIsEmployed(reservation);
-        validateIfReservationTimeIsAvailable(reservation);
+        checkIfEmployeeIsEmployed(reservation);
+        checkIfReservationTimeIsAvailable(reservation);
         validateClientParameters(reservation);
         validateIfClientHasReservation(reservation);
 
@@ -107,7 +107,7 @@ public class ReservationServiceImpl {
         }
     }
 
-    private void validateIfEmployeeIsEmployed(Reservation reservation) throws EmployeeException {
+    private void checkIfEmployeeIsEmployed(Reservation reservation) throws EmployeeException {
 
         Employee employee = reservation.getEmployee();
 
@@ -116,8 +116,7 @@ public class ReservationServiceImpl {
         }
     }
 
-    //TODO: To consider if this shall be part of reservationParameters validator
-    private void validateIfReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
+    private void checkIfReservationTimeIsAvailable(Reservation reservation) throws ReservationException {
 
         if (checkIfReservationTimeIsBooked(reservation)) {
             throw new ReservationException("This time is already booked. Please try another time");
@@ -132,13 +131,6 @@ public class ReservationServiceImpl {
             clientDAO.add(client);
         } else if (checkIfExistingClientHasReservationAtTheSameTime(reservation)) {
             throw new ClientException("Client has reservation at requested time, please choose another reservation time");
-        }
-    }
-
-    private void validateReservationStatus(Reservation reservation) throws ReservationException {
-
-        if (!ReservationValidator.validateReservationStatus(reservation)) {
-            throw new ReservationException("Cannot make reservation with non-active status!");
         }
     }
 

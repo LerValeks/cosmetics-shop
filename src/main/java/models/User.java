@@ -4,8 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @EqualsAndHashCode
 
 public abstract class User {
@@ -14,7 +14,9 @@ public abstract class User {
     private String surname;
     private String phoneNumber;
 
-    public User(String name, String surname, String phoneNumber) {
+    public User(String name,
+                String surname,
+                String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;

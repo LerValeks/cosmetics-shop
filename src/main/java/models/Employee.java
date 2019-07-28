@@ -19,7 +19,10 @@ public class Employee extends User {
     private EmploymentStatus employmentStatus;
     private Set<Reservation> reservations;
 
-    public Employee(String name, String surname, String phoneNumber, ServiceCategory serviceCategory) {
+    public Employee(String name,
+                    String surname,
+                    String phoneNumber,
+                    ServiceCategory serviceCategory) {
         super(name, surname, phoneNumber);
         this.serviceCategory = serviceCategory;
         this.employmentStatus = EMPLOYED;

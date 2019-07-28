@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 import static models.ReservationStatus.ACTIVE;
 
-@Getter
 @Setter
+@Getter
 @EqualsAndHashCode
 
 public class Reservation {
@@ -20,7 +20,10 @@ public class Reservation {
     LocalDateTime reservationTime;
     ReservationStatus reservationStatus;
 
-    public Reservation(ServiceCategory serviceCategory, Employee employee, Client client, LocalDateTime reservationTime) {
+    public Reservation(ServiceCategory serviceCategory,
+                       Employee employee,
+                       Client client,
+                       LocalDateTime reservationTime) {
         this.serviceCategory = serviceCategory;
         this.reservationStatus = ACTIVE;
         this.employee = employee;
