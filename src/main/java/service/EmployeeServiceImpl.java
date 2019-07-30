@@ -54,6 +54,7 @@ public class EmployeeServiceImpl {
                 .collect(Collectors.toList());
     }
 
+    //TODO: Discuss with alex if validator is needed
     public List<Employee> showListOfEmployeesByServiceCategoryFreeAtSpecificTimeOfReservation(ServiceCategory serviceCategory, Reservation reservation) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
@@ -73,6 +74,7 @@ public class EmployeeServiceImpl {
         return freeEmployee;
     }
 
+    //todo: add validator
     public boolean checkIfCurrentEmployeeIsEmployed(Employee employee) throws EmployeeException {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();

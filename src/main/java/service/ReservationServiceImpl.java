@@ -17,30 +17,19 @@ import java.util.stream.Collectors;
 
 public class ReservationServiceImpl {
 
-    //TODO: Why validators are in grey? Why employee and client services don't require a parameter?
     private final EmployeeDAO employeeDAO;
     private final ClientDAO clientDAO;
 
     private EmployeeServiceImpl employeeService;
     private ClientServiceImpl clientService;
 
-    private EmployeeValidator employeeValidator;
-    private ClientValidator clientValidator;
-    private ReservationValidator reservationValidator;
-
     public ReservationServiceImpl(EmployeeDAO employeeDAO,
                                   ClientDAO clientDAO,
-                                  EmployeeValidator employeeValidator,
-                                  ClientValidator clientValidator,
-                                  ReservationValidator reservationValidator,
                                   EmployeeServiceImpl employeeService,
                                   ClientServiceImpl clientService) {
 
         this.employeeDAO = employeeDAO;
         this.clientDAO = clientDAO;
-        this.employeeValidator = employeeValidator;
-        this.clientValidator = clientValidator;
-        this.reservationValidator = reservationValidator;
         this.employeeService = employeeService;
         this.clientService = clientService;
     }
@@ -61,6 +50,7 @@ public class ReservationServiceImpl {
 
     public Set<Reservation> showActiveReservations(String phoneNumber) {
 
+        //todo: add validator for null
         Set<Employee> allEmployees = employeeDAO.getAllItems();
         LocalDateTime today = LocalDateTime.now();
 
@@ -74,6 +64,7 @@ public class ReservationServiceImpl {
                 .collect(Collectors.toSet());
     }
 
+    //todo: add validator of dates
     public Set<Reservation> showAllReservationsForSpecificTimePeriod(String phoneNumber, LocalDate fromDate, LocalDate toDate) {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();

@@ -193,7 +193,7 @@ public class EmployeeServiceImplTest {
 
     @Test
     //TODO: Robert to advise why cannot do .setEmploymentstatus on employees.add(employee.setsmth...)?
-    public void validateIfCurrentEmployeeIsEmployed() throws EmployeeException {
+    public void checkIfCurrentEmployeeIsEmployed() throws EmployeeException {
 
         //given
         Set<Employee> employees = createEmployees(5);
@@ -207,5 +207,13 @@ public class EmployeeServiceImplTest {
         //then
         Assert.assertTrue(employeeAvailableInDAO);
         assertEquals(6, employees.size());
+    }
+
+    @Test
+    public void showListOfEmployeesByServiceCategory() {
+    }
+
+    @Test
+    public void showListOfEmployeesByServiceCategoryFreeAtSpecificTimeOfReservation() {
     }
 }

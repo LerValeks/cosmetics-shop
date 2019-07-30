@@ -212,7 +212,7 @@ public class ClientServiceImplTest {
     }
 
     @Test
-    public void validateIfExistingClient() throws ClientException {
+    public void checkIfExistingClient() throws ClientException {
 
         //given
         Set<Client> clients = createClients(7);
@@ -231,7 +231,7 @@ public class ClientServiceImplTest {
     }
 
     @Test
-    public void validateIfExistingClientHasReservationAtTheSameTime() throws ClientException {
+    public void checkIfExistingClientHasReservationAtTheSameTime() throws ClientException {
 
         //given
         Set<Employee> employees = createEmployees(5);

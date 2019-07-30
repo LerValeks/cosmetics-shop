@@ -46,6 +46,7 @@ public class ClientServiceImpl {
         return clientDAO.delete(client);
     }
 
+    //TODO: add validator
     public boolean checkIfExistingClient(Client client) {
 
         Set<Client> allClients = clientDAO.getAllItems();
@@ -53,6 +54,7 @@ public class ClientServiceImpl {
         return allClients.contains(client);
     }
 
+    //todo: add validator
     public boolean checkIfExistingClientHasReservationAtTheSameTime(Reservation reservation) throws ClientException {
 
         Set<Employee> allEmployees = employeeDAO.getAllItems();
